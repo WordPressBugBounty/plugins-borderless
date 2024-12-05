@@ -35,65 +35,62 @@ class WPBakeryShortCode_borderless_wpbakery_icon extends WPBakeryShortCode {
 			BORDERLESS__VERSION
 		);
 
-
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
 		
-		
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-		
-		
+		$borderless_primary_color = isset( $options['primary_color'] ) ? esc_attr( $options['primary_color'] ) : '#3379fc'; //Primary Color
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? esc_attr( $options['secondary_color'] ) : '#3379fc'; //Secondary Color
+		$borderless_text_color = isset( $options['text_color'] ) ? esc_attr( $options['text_color'] ) : ''; //Text Color
+		$borderless_accent_color = isset( $options['accent_color'] ) ? esc_attr( $options['accent_color'] ) : '#3379fc'; //Accent Color
+
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
-		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
+		$css = isset( $atts['css'] ) ? esc_attr( $atts['css'] ) : '';
+		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $atts['el_id'] ) . '"' : '';
+		$el_class = isset( $atts['el_class'] ) ? esc_attr( $atts['el_class'] ) : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
-		
-		
+
 		// Set custom values
 		$link = vc_build_link( $link );
-		$color = ($icon_color == 'custom') ? 'color:'.$custom_icon_color.';' : 'color:'.$borderless_primary_color.';'; //Icon Color
-		$font_size_reference = $icon_size;
-		$icon_size = $icon_size ? 'font-size:'.$icon_size.';' : ' font-size:4rem;'; //Font Size
-		$icon_alignment = $icon_alignment ? 'text-align:'.$icon_alignment.';' : ''; //Icon Alignment
-		
-		if($shape != '') {
+		$color = ($icon_color == 'custom') ? 'color:' . esc_attr( $custom_icon_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';'; //Icon Color
+		$font_size_reference = esc_attr( $icon_size );
+		$icon_size = $icon_size ? 'font-size:' . esc_attr( $icon_size ) . ';' : ' font-size:4rem;'; //Font Size
+		$icon_alignment = $icon_alignment ? 'text-align:' . esc_attr( $icon_alignment ) . ';' : ''; //Icon Alignment
 
-			if($shape == 'rounded' || $shape == 'square' || $shape == 'round') {
-			  $color_shape = $color_shape ? 'background-color:'.$color_shape.';' : 'background-color:'.$borderless_primary_color.';'; //Background Color
+		if ( $shape != '' ) {
+			if ( $shape == 'rounded' || $shape == 'square' || $shape == 'round' ) {
+				$color_shape = $color_shape ? 'background-color:' . esc_attr( $color_shape ) . ';' : 'background-color:' . esc_attr( $borderless_primary_color ) . ';'; //Background Color
 			} else {
-			  $color_shape = $color_shape ? 'border-color:'.$color_shape.';' : 'border-color:'.$borderless_primary_color.';'; //Border Color
+				$color_shape = $color_shape ? 'border-color:' . esc_attr( $color_shape ) . ';' : 'border-color:' . esc_attr( $borderless_primary_color ) . ';'; //Border Color
 			}
-  
 		} else {
 			$color_shape = $default_color_shape = '';
 		}
-  
-		if($spacing != '') {
-			$spacing = 'height:'.$spacing.'; width:'.$spacing.';';
+
+		if ( $spacing != '' ) {
+			$spacing = 'height:' . esc_attr( $spacing ) . '; width:' . esc_attr( $spacing ) . ';';
 		} else {
-			$spacing = 'height:calc('.$font_size_reference.' + 2em); width:calc('.$font_size_reference.' + 2em);';
+			$spacing = 'height:calc(' . esc_attr( $font_size_reference ) . ' + 2em); width:calc(' . esc_attr( $font_size_reference ) . ' + 2em);';
 		}
-		
-		
+
 		// Output
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-icon background-shape '.$css_class.'" style="'.$icon_alignment.'">';
-		if($link['url'] != ''){$output .= '<a href="'.esc_attr( $link['url'] ).'">';}
-		$output .= '<div style="'.$color_shape.''.$spacing.'" class="single-icon '.$shape.'">';
-		$output .= '<i class="'.$icon.'" style="'.$color.$icon_size.'" aria-hidden="true"></i>';
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-icon background-shape ' . esc_attr( $css_class ) . '" style="' . esc_attr( $icon_alignment ) . '">';
+		if ( ! empty( $link['url'] ) ) {
+			$output .= '<a href="' . esc_url( $link['url'] ) . '">';
+		}
+		$output .= '<div style="' . esc_attr( $color_shape ) . '' . esc_attr( $spacing ) . '" class="single-icon ' . esc_attr( $shape ) . '">';
+		$output .= '<i class="' . esc_attr( $icon ) . '" style="' . esc_attr( $color ) . esc_attr( $icon_size ) . '" aria-hidden="true"></i>';
 		$output .= '</div>';
-		if($link['url'] != ''){$output .= '</a>';}
+		if ( ! empty( $link['url'] ) ) {
+			$output .= '</a>';
+		}
 		$output .= '</div>';
-		
+
 		return $output;
 	}
 }
@@ -154,7 +151,7 @@ return array(
 			'description' => __( 'Select custom shape background color.', 'borderless' ),
 			'dependency' => array(
 				'element' => 'shape',
-				'value' => array( 'rounded','square','round','outline-rounded','outline-square','outline-round',  ),
+				'value' => array( 'rounded', 'square', 'round', 'outline-rounded', 'outline-square', 'outline-round' ),
 			),
 		),
 		array(
@@ -193,30 +190,24 @@ return array(
 			'param_name' => 'link',
 			'description' => __( 'Add link to icon.', 'borderless' ),
 		),
-		
-		// Animation
 		vc_map_add_css_animation(),
-		
 		array(
 			'type' => 'el_id',
 			'heading' => __( 'Element ID', 'borderless' ),
 			'param_name' => 'el_id',
 			'description' => sprintf( __( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'borderless' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
-			),
-			
-			array(
-				'type' => 'textfield',
-				'heading' => __( 'Extra class name', 'borderless' ),
-				'param_name' => 'el_class',
-				'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'borderless' ),
-			),
-			
-			array(
-				'type' => 'css_editor',
-				'heading' => __( 'CSS box', 'borderless' ),
-				'param_name' => 'css',
-				'group' => __( 'Design Options', 'borderless' ),
-			),
 		),
-	);
-	
+		array(
+			'type' => 'textfield',
+			'heading' => __( 'Extra class name', 'borderless' ),
+			'param_name' => 'el_class',
+			'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'borderless' ),
+		),
+		array(
+			'type' => 'css_editor',
+			'heading' => __( 'CSS box', 'borderless' ),
+			'param_name' => 'css',
+			'group' => __( 'Design Options', 'borderless' ),
+		),
+	),
+);

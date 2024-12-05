@@ -12,7 +12,7 @@ class WPBakeryShortCode_borderless_wpbakery_alert extends WPBakeryShortCode {
 		extract( shortcode_atts( array(
 			'type' => 'borderless-wpbakery-alert-success',
 			'dismissible' => '',
-			//Static
+			// Static
 			'el_id' => '',
 			'el_class' => '',
 			'css' => '',
@@ -28,38 +28,35 @@ class WPBakeryShortCode_borderless_wpbakery_alert extends WPBakeryShortCode {
 			BORDERLESS__VERSION
 		);
 
-
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
 
-
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-		
+		$borderless_primary_color = isset( $options['primary_color'] ) ? esc_attr( $options['primary_color'] ) : '#3379fc'; // Primary Color
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? esc_attr( $options['secondary_color'] ) : '#3379fc'; // Secondary Color
+		$borderless_text_color = isset( $options['text_color'] ) ? esc_attr( $options['text_color'] ) : ''; // Text Color
+		$borderless_accent_color = isset( $options['accent_color'] ) ? esc_attr( $options['accent_color'] ) : '#3379fc'; // Accent Color
 		
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
-		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
+		$css = isset( $atts['css'] ) ? esc_attr( $atts['css'] ) : '';
+		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $atts['el_id'] ) . '"' : '';
+		$el_class = isset( $atts['el_class'] ) ? esc_attr( $atts['el_class'] ) : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );	
 
-
 		// Set custom values
 		$quote = "'";
-		
 
 		// Output
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-alert '.$css_class.' '.$type.'">';
-		$output .= $content;
-		if(!empty($dismissible)) { $output .= '<span class="borderless-wpbakery-alert-close-button" onclick="this.parentElement.style.display='.$quote.'none'.$quote.';">×</span>'; }
+		$output .= '<div '.$el_id.' class="borderless-wpbakery-alert '.esc_attr( $css_class ).' '.esc_attr( $type ).'">';
+		$output .= wp_kses_post( $content );
+		if ( ! empty( $dismissible ) ) { 
+			$output .= '<span class="borderless-wpbakery-alert-close-button" onclick="this.parentElement.style.display=' . $quote . 'none' . $quote . ';">×</span>'; 
+		}
 		$output .= '</div>';
 		
 		return $output;
@@ -130,4 +127,3 @@ return array(
 			),
 		),
 	);
-	

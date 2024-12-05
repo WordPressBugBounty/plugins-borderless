@@ -55,122 +55,103 @@ class WPBakeryShortCode_borderless_wpbakery_infobox extends WPBakeryShortCode {
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
 
-
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-		
-		
+		$borderless_primary_color = isset( $options['primary_color'] ) ? esc_attr( $options['primary_color'] ) : '#3379fc';
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? esc_attr( $options['secondary_color'] ) : '#3379fc';
+		$borderless_text_color = isset( $options['text_color'] ) ? esc_attr( $options['text_color'] ) : '';
+		$borderless_accent_color = isset( $options['accent_color'] ) ? esc_attr( $options['accent_color'] ) : '#3379fc';
+
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
-		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
+		$css = isset( $atts['css'] ) ? esc_attr( $atts['css'] ) : '';
+		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $atts['el_id'] ) . '"' : '';
+		$el_class = isset( $atts['el_class'] ) ? esc_attr( $atts['el_class'] ) : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
-
-		// Set custom values
-
 		// Link
-		if($link != '') {
+		if ( $link != '' ) {
 			$link = vc_build_link( $link );
-			$link_start = '<a href="'.esc_attr( $link['url'] ).'">';
+			$link_start = '<a href="' . esc_url( $link['url'] ) . '">';
 			$link_finish = '</a>';
 		} else {
 			$link_start = '';
 			$link_finish = '';
 		}
-		
-		$title_color = $title_color ? 'color:'.$title_color.';' : 'color:'.$borderless_primary_color.';'; //Title Color
-		$title_size = $title_size ? 'font-size:'.$title_size.';' : ''; //Title Size
-		$title_line_height = $title_line_height ? 'line-height:'.$title_line_height.';' : ''; //Title Line Height
-		$title_spacing = $title_spacing ? 'margin:'.$title_spacing.';' : ''; //Title Spacing
-		$title_alignment = $title_alignment ? 'text-align:'.$title_alignment.';' : ''; //Title Alignment		
-		$title_content = ''.$link_start.'<'.$title_tag.' style="'.$title_size.$title_line_height.$title_spacing.$title_alignment.$title_color.'">'.$title.'</'.$title_tag.'>'.$link_finish.'';
-		
+
+		// Title
+		$title_color = $title_color ? 'color:' . esc_attr( $title_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';';
+		$title_size = $title_size ? 'font-size:' . esc_attr( $title_size ) . ';' : '';
+		$title_line_height = $title_line_height ? 'line-height:' . esc_attr( $title_line_height ) . ';' : '';
+		$title_spacing = $title_spacing ? 'margin:' . esc_attr( $title_spacing ) . ';' : '';
+		$title_alignment = $title_alignment ? 'text-align:' . esc_attr( $title_alignment ) . ';' : '';
+		$title_content = $link_start . '<' . esc_attr( $title_tag ) . ' style="' . esc_attr( $title_size . $title_line_height . $title_spacing . $title_alignment . $title_color ) . '">' . esc_html( $title ) . '</' . esc_attr( $title_tag ) . '>' . $link_finish;
+
 		// Icon
-		if ($icon_display == 'image_icon') {
-			
+		$icon_content = '';
+		if ( $icon_display == 'image_icon' ) {
 			$default_src = vc_asset_url( 'vc/no_image.png' );
 			$img = wp_get_attachment_image_src( $custom_image_icon );
 			$src = $img[0];
-			$custom_src = $src ? esc_attr( $src ) : $default_src;
-			
-			$icon_content = '<img src="'.$custom_src.'" >';
-			
-		} elseif ($icon_display == 'svg_icon') {
-			
+			$custom_src = $src ? esc_url( $src ) : esc_url( $default_src );
+			$icon_content = '<img src="' . $custom_src . '" >';
+		} elseif ( $icon_display == 'svg_icon' ) {
 			$default_src = vc_asset_url( 'vc/no_image.png' );
 			$img = wp_get_attachment_image_src( $custom_svg_icon );
 			$src = $img[0];
-			$custom_src = $src ? esc_attr( $src ) : $default_src;
-			
-			$icon_content = '<div class="borderless-wpbakery-infobox-svg" style="height:'.$height.';width:'.$width.';"><img class="borderless-svg-img" src="'.$custom_src.'" ></div>';
-			
+			$custom_src = $src ? esc_url( $src ) : esc_url( $default_src );
+			$icon_content = '<div class="borderless-wpbakery-infobox-svg" style="height:' . esc_attr( $height ) . ';width:' . esc_attr( $width ) . ';"><img class="borderless-svg-img" src="' . $custom_src . '" ></div>';
 		} else {
-			
-			$iconClass = isset( $icon ) ? esc_attr( $icon ) : 'fa fa-adjust';
-			
-			$custom_icon_color = $icon_color ? 'color:'.$custom_icon_color.';' : 'color:'.$borderless_primary_color.';'; //Icon Color
-			
+			$icon_class = isset( $icon ) ? esc_attr( $icon ) : 'fa fa-adjust';
+			$custom_icon_color = $icon_color ? 'color:' . esc_attr( $custom_icon_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';';
 			$font_size_reference = $icon_size;
-			
 			if($icon_size != '') {
-				$icon_size = 'font-size:'.$icon_size.';';
+				$icon_size = 'font-size:' . esc_attr( $icon_size ) . ';';
 			}
-			
-			if($shape != '') {
-				
+			if ( $shape != '' ) {
 				if($shape == 'rounded' || $shape == 'square' || $shape == 'round') {
-					$color_shape = $color_shape ? 'background-color:'.$color_shape.';' : 'background-color:'.$borderless_primary_color.';'; //Background Color Shape
+					$color_shape = $color_shape ? 'background-color:'.esc_attr( $color_shape ).';' : 'background-color:'.esc_attr( $borderless_primary_color ).';';
 				} else {
-					$color_shape = $color_shape ? 'border-color:'.$color_shape.';' : 'border-color:'.$borderless_primary_color.';'; //Border Color Shape
+					$color_shape = $color_shape ? 'border-color:'.esc_attr( $color_shape ).';' : 'border-color:'.esc_attr( $borderless_primary_color ).';';
 				}
-				
 				if($icon_spacing != '') {
-					$icon_spacing = 'height:'.$icon_spacing.'; width:'.$icon_spacing.';';
+					$icon_spacing = 'height:'.esc_attr( $icon_spacing ).'; width:'.esc_attr( $icon_spacing ).';';
 				} else {
-					$icon_spacing = 'height:calc('.$font_size_reference.' + 2em); width:calc('.$font_size_reference.' + 2em);';
+					$icon_spacing = 'height:calc('.esc_attr( $font_size_reference ).' + 2em); width:calc('.esc_attr( $font_size_reference ).' + 2em);';
 				}
-				
 				$shape_render_start = '<div class="borderless-wpbakery-infobox-type '.$shape.'" style="'.$color_shape.''.$icon_spacing.'">';
 				$shape_render_finish = '</div>';
-				
 			} else {
 				$shape_render_start = $shape_render_finish = '';
 			}
-
-			$icon_content = ''.$shape_render_start.'<span style="'.$custom_icon_color.' '.$icon_size.'" class="borderless-wpbakery-infobox-icon-item '.$iconClass.'"></span>'.$shape_render_finish.'';
+			$icon_content = $shape_render_start . '<span class="' . esc_attr( $icon_class ) . '" style="' . esc_attr( $custom_icon_color . $icon_size ) . '"></span>' . $shape_render_finish;
 		}
-		
+
 		// Gap
-		
-		$icon_gap = 'style="margin:'.$icon_gap.';"';
-		
+		$icon_gap = 'style="margin:' . esc_attr( $icon_gap ) . ';"';
+
 		// Style
-		
-		$style_alignment = 'style="flex-direction:'.$style.'; align-items:'.$alignment.';"';
-		
-		//Output
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-infobox '.$css_class.'" '.$style_alignment.'>';
-		$output .= '<div class="borderless-wpbakery-infobox-icon '.$animations.' '.$animation_delay.' '.$animation_speed.'" '.$icon_gap.'>';
+		$style_alignment = 'style="flex-direction:' . esc_attr( $style ) . '; align-items:' . esc_attr( $alignment ) . ';"';
+
+		// Output
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-infobox ' . esc_attr( $css_class ) . '" ' . $style_alignment . '>';
+		$output .= '<div class="borderless-wpbakery-infobox-icon ' . esc_attr( $animations . ' ' . $animation_delay . ' ' . $animation_speed ) . '" ' . $icon_gap . '>';
 		$output .= $icon_content;
 		$output .= '</div>';
 		$output .= '<div class="borderless-wpbakery-infobox-content">';
 		$output .= $title_content;
-		$output .= $content;
+		$output .= wp_kses_post( $content );
 		$output .= '</div>';
 		$output .= '</div>';
-		
+
 		return $output;
 	}
 }
+
+
 
 return array(
 	'name' => __( 'Infobox', 'borderless' ),
@@ -613,4 +594,3 @@ return array(
 			),
 		),
 	);
-	

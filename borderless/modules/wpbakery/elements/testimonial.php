@@ -9,158 +9,159 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WPBakeryShortCode_borderless_wpbakery_testimonial_section extends WPBakeryShortCode {
 	protected function content( $atts, $content = null ) {
-		extract( shortcode_atts( array(
-			'title' => '',
-			'occupation' => '',
-			'photo' => '',
-			'content' => $content,
-			'testimonial_color' => '',
-			'testimonial_name_color' => '',
-			'testimonial_occupation_color' => '',
-			//Static
-			'el_id' => '',
-			'el_class' => '',
-			'css' => '',
-			'css_animation' => ''
-		), $atts ) );
+		$atts = shortcode_atts( array(
+			'title'                          => '',
+			'occupation'                     => '',
+			'photo'                          => '',
+			'content'                        => $content,
+			'testimonial_color'              => '',
+			'testimonial_name_color'         => '',
+			'testimonial_occupation_color'   => '',
+			// Static
+			'el_id'                          => '',
+			'el_class'                       => '',
+			'css'                            => '',
+			'css_animation'                  => ''
+		), $atts );
+
 		$output = '';
 
 		// Assets.
 		wp_enqueue_style(
 			'borderless-wpbakery-style',
-			BORDERLESS__STYLES . 'wpbakery.min.css', 
-			false, 
+			BORDERLESS__STYLES . 'wpbakery.min.css',
+			false,
 			BORDERLESS__VERSION
 		);
 		wp_enqueue_style(
 			'borderless-flickity-style',
 			BORDERLESS__LIB . 'flickity/flickity.css',
-			false, 
+			false,
 			BORDERLESS__VERSION
 		);
 		wp_enqueue_script(
 			'borderless-wpbakery-script',
-			BORDERLESS__SCRIPTS . 'borderless-wpbakery.min.js', array('jquery'), 
-			BORDERLESS__VERSION, 
-			true 
+			BORDERLESS__SCRIPTS . 'borderless-wpbakery.min.js',
+			array( 'jquery' ),
+			BORDERLESS__VERSION,
+			true
 		);
 		wp_enqueue_script(
 			'borderless-flickity-script',
-			BORDERLESS__LIB . 'flickity/flickity.js', array('jquery'), 
-			'2.2.2', 
-			true 
+			BORDERLESS__LIB . 'flickity/flickity.js',
+			array( 'jquery' ),
+			'2.2.2',
+			true
 		);
-		
-		
+
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
-		
-		
+
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-		
-		
+		$borderless_primary_color   = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; // Primary Color
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; // Secondary Color
+		$borderless_text_color      = isset( $options['text_color'] ) ? $options['text_color'] : ''; // Text Color
+		$borderless_accent_color    = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; // Accent Color
+
 		// Picture
-		if ($photo) {
-			$img = wp_get_attachment_image_src( $photo, 'thumbnail' );
-			$imgSrc = $img[0];
+		if ( $atts['photo'] ) {
+			$img    = wp_get_attachment_image_src( $atts['photo'], 'thumbnail' );
+			$imgSrc = isset( $img[0] ) ? esc_url( $img[0] ) : '';
 		} else {
 			$imgSrc = '';
 		}
-		
-		
-		// Start Default Extra Class, CSS and CSS animation
-		
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
+
+		// Default Extra Class, CSS and CSS animation
+		$css      = isset( $atts['css'] ) ? $atts['css'] : '';
+		$el_id    = isset( $atts['el_id'] ) ? $atts['el_id'] : '';
+		$el_id    = ! empty( $el_id ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
 		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
-		
-		if ( '' !== $css_animation ) {
+
+		if ( '' !== $atts['css_animation'] ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $atts['css_animation'] );
 		}
-		
-		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
-		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
-		
-		// End Default Extra Class, CSS and CSS animation
-		
-		if($testimonial_color != '') {
-			$testimonial_color = 'style= "color:'.$testimonial_color.'"';
-		} else {
-			$testimonial_color = '';
+
+		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $atts['css_animation'] );
+		$css_class       = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
+
+		// Custom Colors
+		$testimonial_color_style = '';
+		if ( ! empty( $atts['testimonial_color'] ) ) {
+			$testimonial_color_style = 'style="color:' . esc_attr( $atts['testimonial_color'] ) . ';"';
 		}
-		
-		if($testimonial_name_color != '') {
-			$testimonial_name_color = 'style= "color:'.$testimonial_name_color.'"';
-		} else {
-			$testimonial_name_color = '';
+
+		$testimonial_name_color_style = '';
+		if ( ! empty( $atts['testimonial_name_color'] ) ) {
+			$testimonial_name_color_style = 'style="color:' . esc_attr( $atts['testimonial_name_color'] ) . ';"';
 		}
-		
-		if($testimonial_occupation_color != '') {
-			$testimonial_occupation_color = 'style= "color:'.$testimonial_occupation_color.'"';
-		} else {
-			$testimonial_occupation_color = '';
+
+		$testimonial_occupation_color_style = '';
+		if ( ! empty( $atts['testimonial_occupation_color'] ) ) {
+			$testimonial_occupation_color_style = 'style="color:' . esc_attr( $atts['testimonial_occupation_color'] ) . ';"';
 		}
-		
-		
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-testimonial-section carousel-cell '.$css_class.'">';
-		$output .= '<p '.$testimonial_color.' class="testimonial-quote">'.$content.'</p>';
-		$output .= '<div class="testimonial-photo-title-occupation">'; 
-		if(!empty($photo)){ $output .= '<div class="testimonial-photo"><img src="'.$imgSrc.'" /></div>'; }
+
+		// Output
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-testimonial-section carousel-cell ' . esc_attr( $css_class ) . '">';
+		$output .= '<p ' . $testimonial_color_style . ' class="testimonial-quote">' . wp_kses_post( $content ) . '</p>';
+		$output .= '<div class="testimonial-photo-title-occupation">';
+		if ( ! empty( $imgSrc ) ) {
+			$output .= '<div class="testimonial-photo"><img src="' . esc_url( $imgSrc ) . '" /></div>';
+		}
 		$output .= '<div class="testimonial-title-occupation">';
-		$output .= '<span '.$testimonial_name_color.' class="testimonial-title">'.$title.'</span>';
-		$output .= '<span '.$testimonial_occupation_color.' class="testimonial-occupation">'.$occupation.'</span>';
+		if ( ! empty( $atts['title'] ) ) {
+			$output .= '<span ' . $testimonial_name_color_style . ' class="testimonial-title">' . esc_html( $atts['title'] ) . '</span>';
+		}
+		if ( ! empty( $atts['occupation'] ) ) {
+			$output .= '<span ' . $testimonial_occupation_color_style . ' class="testimonial-occupation">' . esc_html( $atts['occupation'] ) . '</span>';
+		}
 		$output .= '</div></div></div>';
-		
+
 		return $output;
 	}
 }
 
 class WPBakeryShortCode_borderless_wpbakery_testimonial extends WPBakeryShortCodesContainer {
 	protected function content( $atts, $content = null ) {
-		extract( shortcode_atts( array(
-			//Static
-			'el_id' => '',
-			'el_class' => '',
-			'css' => '',
+		$atts = shortcode_atts( array(
+			// Static
+			'el_id'         => '',
+			'el_class'      => '',
+			'css'           => '',
 			'css_animation' => ''
-		), $atts ) );
+		), $atts );
+
 		$output = '';
-		
-		// Start Default Extra Class, CSS and CSS animation
-		
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
+
+		// Default Extra Class, CSS and CSS animation
+		$css      = isset( $atts['css'] ) ? $atts['css'] : '';
+		$el_id    = isset( $atts['el_id'] ) ? $atts['el_id'] : '';
+		$el_id    = ! empty( $el_id ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
 		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
-		
-		if ( '' !== $css_animation ) {
+
+		if ( '' !== $atts['css_animation'] ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $atts['css_animation'] );
 		}
-		
-		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
-		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
-		
-		// End Default Extra Class, CSS and CSS animation
-		
-		
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-testimonial'.' '.$css_class.'">
+
+		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $atts['css_animation'] );
+		$css_class       = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
+
+		// Output
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-testimonial ' . esc_attr( $css_class ) . '">
 		<div class="testimonials">
 		<div class="testimonials-container">
 		<div class="testimonial">
-		<div class="main-carousel">'.wpb_js_remove_wpautop($content).'</div>
+		<div class="main-carousel">' . wpb_js_remove_wpautop( do_shortcode( $content ) ) . '</div>
 		</div>
 		</div>
 		</div>
 		</div>';
-		
+
 		return $output;
 	}
 }
+
 
 vc_map( array(
 	'name' => __( 'Testimonial', 'borderless' ),

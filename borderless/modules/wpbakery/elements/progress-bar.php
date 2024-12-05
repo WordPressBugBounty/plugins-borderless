@@ -70,37 +70,42 @@ class WPBakeryShortCode_borderless_wpbakery_progress_bar extends WPBakeryShortCo
 		
 		// Default Extra Class, CSS and CSS animation
 		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
+		$el_id = isset( $atts['el_id'] ) ? $atts['el_id'] : '';
+		$el_id = ! empty( $el_id ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
 		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
 
 		// Start Custom Colors		
-		$title_color = $title_color ? 'style=color:'.$title_color.'' : 'style=color:'.$borderless_primary_color.'';
+		$title_color_style = $title_color ? 'color:' . esc_attr( $title_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';';
 		
-		$icon_color = $icon_color ? 'style=color:'.$icon_color.'' : 'style=color:'.$borderless_primary_color.'';
+		$icon_color_style = $icon_color ? 'color:' . esc_attr( $icon_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';';
 		
-		$bar_color = $bar_color ? $bar_color : $borderless_primary_color;
+		$bar_color = $bar_color ? esc_attr( $bar_color ) : esc_attr( $borderless_primary_color );
 
-		$track_color = $track_color ? $track_color : '#f9f9f9';	
+		$track_color = $track_color ? esc_attr( $track_color ) : '#f9f9f9';
 		// End Custom Colors
 		
-		$height = $height ? 'style="height:'.$height.';"' : '';
+		$height_style = $height ? 'height:' . esc_attr( $height ) . ';' : '';
 		
-		if ($checkicon=="custom_icon") { $icon = '<i class="borderless-wpbakery-progress-bar-icon '.$icon.'" '.$icon_color.'></i>'; } else { $icon = ""; }
+		if ( $checkicon == "custom_icon" ) {
+			$icon = '<i class="borderless-wpbakery-progress-bar-icon ' . esc_attr( $icon ) . '" style="' . esc_attr( $icon_color_style ) . '"></i>';
+		} else {
+			$icon = "";
+		}
 		
 		// Start Output
 		
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-progress-bar '.$css_class.'">';
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-progress-bar ' . esc_attr( $css_class ) . '">';
 		$output .= $icon;
 		$output .= '<div class="borderless-wpbakery-progress-bar-inner">';
-		$output .= '<span '.$title_color.' class="progress-bar-title">'.$title.'</span>';
-		$output .= '<div class="borderless-wpbakery-progress-bar-params '.$corner.'" '.$height.' percentage="'.$percentage.'" bar_color="'.$bar_color.'" track_color="'.$track_color.'" percentage_color="'.$percentage_color.'"></div>';
+		$output .= '<span style="' . esc_attr( $title_color_style ) . '" class="progress-bar-title">' . esc_html( $title ) . '</span>';
+		$output .= '<div class="borderless-wpbakery-progress-bar-params ' . esc_attr( $corner ) . '" style="' . esc_attr( $height_style ) . '" percentage="' . esc_attr( $percentage ) . '" bar_color="' . esc_attr( $bar_color ) . '" track_color="' . esc_attr( $track_color ) . '" percentage_color="' . esc_attr( $percentage_color ) . '"></div>';
 		$output .= '</div></div>';
 		
 		return $output;
@@ -108,6 +113,7 @@ class WPBakeryShortCode_borderless_wpbakery_progress_bar extends WPBakeryShortCo
 		// End Output
 	}
 }
+
 
 return array(
 	'name' => __( 'Progress Bar', 'borderless' ),

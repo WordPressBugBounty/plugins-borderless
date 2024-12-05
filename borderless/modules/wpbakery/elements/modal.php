@@ -74,134 +74,167 @@ class WPBakeryShortCode_borderless_wpbakery_modal extends WPBakeryShortCodesCont
 		// Start Default Extra Class, CSS and CSS animation
 		
 		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';  
+		$el_id = isset( $atts['el_id'] ) ? $atts['el_id'] : '';
+		$el_id = ! empty( $el_id ) ? 'id="' . esc_attr( $el_id ) . '"' : '';  
 		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
 		
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 		
-		$uniqid = md5(uniqid(rand(), true));
-		$uniqid = preg_replace('/[0-9]+/', '', $uniqid);
+		$uniqid = md5( uniqid( rand(), true ) );
+		$uniqid = preg_replace( '/[0-9]+/', '', $uniqid );
+		$uniqid = esc_attr( $uniqid );
 		
 		// End Default Extra Class, CSS and CSS animation	
 		
 		// Start Trigger Mode
 		
-		$output .= '<div class="borderless-wpbakery-modal-trigger '.$alignment.'">';
+		$output .= '<div class="borderless-wpbakery-modal-trigger ' . esc_attr( $alignment ) . '">';
 		
-		if ($trigger == 'trigger-button') {
+		if ( $trigger == 'trigger-button' ) {
 			
-			if ($button_color == 'custom') {
+			if ( $button_color == 'custom' ) {
 				
 				// Button Background Color
 
-				$button_background_color = isset( $button_background_color ) ? 'background-color: '.$button_background_color.';' : 'background-color: '.$borderless_primary_color.';'; 
+				$button_background_color = ! empty( $button_background_color ) ? 'background-color: ' . esc_attr( $button_background_color ) . ';' : 'background-color: ' . esc_attr( $borderless_primary_color ) . ';'; 
 				
 				// Text Color
 
-				$button_title_color = isset( $button_title_color ) ? 'color: '.$button_title_color.';' : 'color: '.$borderless_primary_color.';'; 
+				$button_title_color = ! empty( $button_title_color ) ? 'color: ' . esc_attr( $button_title_color ) . ';' : 'color: ' . esc_attr( $borderless_primary_color ) . ';'; 
 				
 				// Border Color
 
-				$button_outline_color = isset( $button_outline_color ) ? 'border-color: '.$button_outline_color.';' : 'border-color: '.$borderless_primary_color.';'; 
+				$button_outline_color = ! empty( $button_outline_color ) ? 'border-color: ' . esc_attr( $button_outline_color ) . ';' : 'border-color: ' . esc_attr( $borderless_primary_color ) . ';'; 
 				
 			} else {
 				
 				// Button Background Color
 
-				$button_background_color = empty($button_outline_shape) ? 'background-color: '.$borderless_primary_color.';' : '';
+				$button_background_color = empty( $button_outline_shape ) ? 'background-color: ' . esc_attr( $borderless_primary_color ) . ';' : '';
 				
 				// Text Color
 
-				$button_title_color = !empty($button_outline_shape) ? 'color: '.$borderless_primary_color.';' : 'color:#FFF;'; 
+				$button_title_color = ! empty( $button_outline_shape ) ? 'color: ' . esc_attr( $borderless_primary_color ) . ';' : 'color:#FFF;'; 
 				
 				// Border Color
 
-				$button_outline_color = !empty($button_outline_shape) ? 'border-color: '.$borderless_primary_color.';' : '';
+				$button_outline_color = ! empty( $button_outline_shape ) ? 'border-color: ' . esc_attr( $borderless_primary_color ) . ';' : '';
 
 			}
 			
+			$style = $button_background_color . ' ' . $button_title_color . ' ' . $button_outline_color;
 			
-			$output .= '<div style="'.$button_background_color .' '.$button_title_color.' '.$button_outline_color.'" class="borderless-wpbakery-modal-button '.$button_size.' '.$trigger.' '.$button_shape.' '.$button_outline_shape.'" data-modal="'.$uniqid.'">'.$title.'</div>';	
+			$class_array = array(
+				'borderless-wpbakery-modal-button',
+				sanitize_html_class( $button_size ),
+				sanitize_html_class( $trigger ),
+				sanitize_html_class( $button_shape ),
+				sanitize_html_class( $button_outline_shape ),
+			);
+			$class_attribute = implode( ' ', $class_array );
 			
-		} else if ($trigger == 'trigger-image') {
+			$output .= '<div style="' . esc_attr( $style ) . '" class="' . esc_attr( $class_attribute ) . '" data-modal="' . esc_attr( $uniqid ) . '">' . esc_html( $title ) . '</div>';	
+			
+		} else if ( $trigger == 'trigger-image' ) {
 			
 			// Image
 			
-			if ($icon_display == 'image_icon') {
+			if ( $icon_display == 'image_icon' ) {
 				
 				$default_src = vc_asset_url( 'vc/no_image.png' );
 				$img = wp_get_attachment_image_src( $custom_image_icon );
 				$src = $img[0];
-				$custom_src = $src ? esc_attr( $src ) : $default_src;
+				$custom_src = $src ? esc_url( $src ) : esc_url( $default_src );
 				
-				$icon_content = '<img src="'.$custom_src.'" >';
+				$icon_content = '<img src="' . $custom_src . '" >';
 				
-			} elseif ($icon_display == 'svg_icon') {
+			} elseif ( $icon_display == 'svg_icon' ) {
 				
 				$default_src = vc_asset_url( 'vc/no_image.png' );
 				$img = wp_get_attachment_image_src( $custom_svg_icon );
 				$src = $img[0];
-				$custom_src = $src ? esc_attr( $src ) : $default_src;
+				$custom_src = $src ? esc_url( $src ) : esc_url( $default_src );
 				
-				$icon_content = '<div class="borderless-wpbakery-modal-svg" style="height:'.$height.';width:'.$width.';"><img class="borderless-svg-img" src="'.$custom_src.'" ></div>';
+				$height = esc_attr( $height );
+				$width = esc_attr( $width );
+				
+				$icon_content = '<div class="borderless-wpbakery-modal-svg" style="height:' . $height . ';width:' . $width . ';"><img class="borderless-svg-img" src="' . $custom_src . '" ></div>';
 				
 			} else {
 				
 				$iconClass = isset( $icon ) ? esc_attr( $icon ) : 'fa fa-adjust';
 
-				$custom_icon_color = $icon_color ? 'color:'.$custom_icon_color.';' : 'color:'.$borderless_primary_color.';'; //Icon Color
+				$custom_icon_color_style = $custom_icon_color ? 'color:' . esc_attr( $custom_icon_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';'; //Icon Color
 				
-				$font_size_reference = $icon_size;
+				$font_size_reference = esc_attr( $icon_size );
 				
-				if($icon_size != '') {
-					$icon_size = 'font-size:'.$icon_size.';';
+				if ( $icon_size != '' ) {
+					$icon_size_style = 'font-size:' . esc_attr( $icon_size ) . ';';
+				} else {
+					$icon_size_style = '';
 				}
 				
-				if($shape != '') {
+				if ( $shape != '' ) {
 
-					if($shape == 'rounded' || $shape == 'square' || $shape == 'round') {
-						$color_shape = $color_shape ? 'background-color:'.$color_shape.';' : 'background-color:'.$borderless_primary_color.';'; //Background Color Shape
+					if ( $shape == 'rounded' || $shape == 'square' || $shape == 'round' ) {
+						$color_shape_style = $color_shape ? 'background-color:' . esc_attr( $color_shape ) . ';' : 'background-color:' . esc_attr( $borderless_primary_color ) . ';'; //Background Color Shape
 					} else {
-						$color_shape = $color_shape ? 'border-color:'.$color_shape.';' : 'border-color:'.$borderless_primary_color.';'; //Border Color Shape
+						$color_shape_style = $color_shape ? 'border-color:' . esc_attr( $color_shape ) . ';' : 'border-color:' . esc_attr( $borderless_primary_color ) . ';'; //Border Color Shape
 					}
 					
-					if($icon_spacing != '') {
-						$icon_spacing = 'height:'.$icon_spacing.'; width:'.$icon_spacing.';';
+					if ( $icon_spacing != '' ) {
+						$icon_spacing_style = 'height:' . esc_attr( $icon_spacing ) . '; width:' . esc_attr( $icon_spacing ) . ';';
 					} else {
-						$icon_spacing = 'height:calc('.$font_size_reference.' + 2em); width:calc('.$font_size_reference.' + 2em);';
+						$icon_spacing_style = 'height:calc(' . $font_size_reference . ' + 2em); width:calc(' . $font_size_reference . ' + 2em);';
 					}
 					
-					$shape_render_start = '<div class="borderless-wpbakery-modal-icon-inner '.$shape.'" style="'.$color_shape.''.$icon_spacing.'">';
+					$shape_render_start = '<div class="borderless-wpbakery-modal-icon-inner ' . esc_attr( $shape ) . '" style="' . $color_shape_style . $icon_spacing_style . '">';
 					$shape_render_finish = '</div>';
 					
 				} else {
 					$shape_render_start = $shape_render_finish = '';
 				}
 				
-				$icon_content = ''.$shape_render_start.'<span style="'.$custom_icon_color.' '.$icon_size.'" class="borderless-wpbakery-modal-image '.$iconClass.'"></span>'.$shape_render_finish.'';
+				$icon_content = $shape_render_start . '<span style="' . esc_attr( $custom_icon_color_style . ' ' . $icon_size_style ) . '" class="borderless-wpbakery-modal-image ' . esc_attr( $iconClass ) . '"></span>' . $shape_render_finish;
 			}
 			
-			$output .= '<div data-modal="'.$uniqid.'" class="borderless-wpbakery-modal-icon '.$animations.' '.$animation_delay.' '.$animation_speed.'" '.$icon_gap.'>';
+			$class_array = array(
+				'borderless-wpbakery-modal-icon',
+				$animations,
+				$animation_delay,
+				$animation_speed,
+			);
+			$class_attribute = implode( ' ', array_map( 'esc_attr', $class_array ) );
+			
+			$output .= '<div data-modal="' . esc_attr( $uniqid ) . '" class="' . $class_attribute . '" ' . esc_attr( $icon_gap ) . '>';
 			$output .= $icon_content;
 			$output .= '</div>';
 			
-		} else if ($trigger == 'trigger-text') {
+		} else if ( $trigger == 'trigger-text' ) {
 			
 			// Title Color
 			
-			if (!empty($text_color)) {
-				$text_color = 'color: '.$text_color.';'; 
+			if ( ! empty( $text_color ) ) {
+				$text_color_style = 'color: ' . esc_attr( $text_color ) . ';'; 
 			} else {
-				$text_color = ''; 
+				$text_color_style = ''; 
 			}
 			
-			$output .= '<'.$title_tag.' style="'.$text_color .'" class="borderless-wpbakery-modal-text" data-modal="'.$uniqid.'">'.$title.'</'.$title_tag.'>';
+			$allowed_tags = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div', 'p' );
+
+			if ( in_array( $title_tag, $allowed_tags ) ) {
+				$title_tag = esc_attr( $title_tag );
+			} else {
+				$title_tag = 'span';
+			}
+			
+			$output .= '<' . $title_tag . ' style="' . esc_attr( $text_color_style ) . '" class="borderless-wpbakery-modal-text" data-modal="' . esc_attr( $uniqid ) . '">' . esc_html( $title ) . '</' . $title_tag . '>';
 		}
 		
 		$output .= '</div>';
@@ -210,22 +243,23 @@ class WPBakeryShortCode_borderless_wpbakery_modal extends WPBakeryShortCodesCont
 
 		// Start Modal Height
 
-		if (!empty($initial_height)) {
-			$initial_height = 'style="height:'.$initial_height.';"';
+		if ( ! empty( $initial_height ) ) {
+			$initial_height = 'style="height:' . esc_attr( $initial_height ) . ';"';
 		}
 
 		// End Modal Height
 		
-		$output .= '<div id="'.$uniqid.'" class="borderless-wpbakery-modal">';
-		$output .= '<div id="'.$uniqid.'" class="borderless-wpbakery-modal-inner' .$css_class.'">';
+		$output .= '<div id="' . esc_attr( $uniqid ) . '" class="borderless-wpbakery-modal">';
+		$output .= '<div id="' . esc_attr( $uniqid ) . '" class="borderless-wpbakery-modal-inner' . esc_attr( $css_class ) . '">';
 		$output .= '<a class="borderless-wpbakery-modal-close">&times;</a>';
-		$output .= '<div id="'.$el_id.'" '.$initial_height.' class="borderless-wpbakery-modal-content">'.wpb_js_remove_wpautop($content).'</div>';
+		$output .= '<div ' . $el_id . ' ' . $initial_height . ' class="borderless-wpbakery-modal-content">' . wpb_js_remove_wpautop( do_shortcode( $content ) ) . '</div>';
 		$output .= '</div>';
 		$output .= '</div>';
 		
 		return $output;
 	}
 }
+
 
 
 vc_map( array(

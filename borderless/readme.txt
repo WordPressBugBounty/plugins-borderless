@@ -4,7 +4,7 @@ Tags: Gutenberg, Elementor, elements, widgets, templates
 Requires at least: 5.0
 Tested up to: 6.6.1
 Requires PHP: 7.4
-Stable tag: 1.5.7
+Stable tag: 1.5.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -80,6 +80,9 @@ Sites must be built on PHP 5.6 or greater, but Borderless always supports the la
 4. Create a new Post Type in seconds with our exclusive Custom Post type Creator.
 
 == Changelog ==
+
+= 1.5.8 -Dec 06 2024 =
+* Fixed - General Vulnerabilities.
 
 = 1.5.7 - Sep 17 2024 =
 * New - AI Tools.

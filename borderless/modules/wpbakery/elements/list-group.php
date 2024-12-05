@@ -30,33 +30,31 @@ class WPBakeryShortCode_borderless_wpbakery_list_group extends WPBakeryShortCode
 			BORDERLESS__VERSION
 		);
 		
-		
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
 		
-		
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-		
-		
+		$borderless_primary_color = isset( $options['primary_color'] ) ? esc_attr( $options['primary_color'] ) : '#3379fc';
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? esc_attr( $options['secondary_color'] ) : '#3379fc';
+		$borderless_text_color = isset( $options['text_color'] ) ? esc_attr( $options['text_color'] ) : '';
+		$borderless_accent_color = isset( $options['accent_color'] ) ? esc_attr( $options['accent_color'] ) : '#3379fc';
+
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
-		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
+		$css = isset( $atts['css'] ) ? esc_attr( $atts['css'] ) : '';
+		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $atts['el_id'] ) . '"' : '';
+		$el_class = isset( $atts['el_class'] ) ? esc_attr( $atts['el_class'] ) : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 		
-		
 		// Output
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-list-group '.$css_class.' '.$direction.' '.$appearance.' '.$alignment.' '.$mode.'">'.wpb_js_remove_wpautop($content).'</div>';
-		
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-list-group ' . esc_attr( $css_class ) . ' ' . esc_attr( $direction ) . ' ' . esc_attr( $appearance ) . ' ' . esc_attr( $alignment ) . ' ' . esc_attr( $mode ) . '">';
+		$output .= wpb_js_remove_wpautop( $content );
+		$output .= '</div>';
+
 		return $output;
 	}
 }
@@ -70,72 +68,60 @@ class WPBakeryShortCode_borderless_wpbakery_list_group_item extends WPBakeryShor
 			'colors' => '',
 			'icon_color' => '',
 			'title_color' => '',
-			//Static
 			'el_id' => '',
 			'el_class' => '',
 			'css' => '',
 			'css_animation' => ''
 		), $atts ) );
 		$output = '';
-		
-		
+
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
 		
-		
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-		
-		
+		$borderless_primary_color = isset( $options['primary_color'] ) ? esc_attr( $options['primary_color'] ) : '#3379fc';
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? esc_attr( $options['secondary_color'] ) : '#3379fc';
+		$borderless_text_color = isset( $options['text_color'] ) ? esc_attr( $options['text_color'] ) : '';
+		$borderless_accent_color = isset( $options['accent_color'] ) ? esc_attr( $options['accent_color'] ) : '#3379fc';
+
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
-		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
+		$css = isset( $atts['css'] ) ? esc_attr( $atts['css'] ) : '';
+		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $atts['el_id'] ) . '"' : '';
+		$el_class = isset( $atts['el_class'] ) ? esc_attr( $atts['el_class'] ) : '';
 		
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
-		
-		
+
 		// URL Builder
 		$link = vc_build_link( $link );
-		
-		
+
 		// Set custom values
-		$icon_color = $icon_color ? 'style=color:'.$icon_color.'' : '';
-		$title_color = $title_color ? 'style=color:'.$title_color.'' : '';
+		$icon_color = $icon_color ? 'style="color:' . esc_attr( $icon_color ) . ';"' : '';
+		$title_color = $title_color ? 'style="color:' . esc_attr( $title_color ) . ';"' : '';
 		
-		// End Custom Colors
-		
-		// Start Icon
-		
-		$icon = $icon ? '<i class="'.$icon.'" '.$icon_color.' aria-hidden="true"></i>' : '';
-		
-		//End Icon
-		
-		// Start Link		
-		if($link['url'] != ''){
+		// Icon
+		$icon = $icon ? '<i class="' . esc_attr( $icon ) . '" ' . $icon_color . ' aria-hidden="true"></i>' : '';
+
+		// Link
+		if ( ! empty( $link['url'] ) ) {
 			$tag = 'a';
-			$href = 'href="'.esc_attr( $link['url'] ).'"';
+			$href = 'href="' . esc_url( $link['url'] ) . '"';
 		} else {
 			$tag = 'span';
 			$href = '';
 		}
-		// End Link
-		
-		$output .= '<'.$tag.' '.$href.' '.$el_id.' class="borderless-wpbakery-list-group-item '.$css_class.'" '.$title_color.'>'.$icon.$title.'</'.$tag.'>';
-		
+
+		$output .= '<' . $tag . ' ' . $href . ' ' . $el_id . ' class="borderless-wpbakery-list-group-item ' . esc_attr( $css_class ) . '" ' . $title_color . '>' . $icon . esc_html( $title ) . '</' . $tag . '>';
 		
 		return $output;
 	}
 }
+
 
 vc_map( array(
 	'name' => __( 'List Group', 'borderless' ),

@@ -9,147 +9,154 @@ defined( 'ABSPATH' ) || exit;
 class WPBakeryShortCode_borderless_wpbakery_team_member extends WPBakeryShortCode {
 	protected function content( $atts, $content = null ) {
 		extract( shortcode_atts( array(
-			'picture' => null,
-			'picture_size' => null,
-			'name' => null,
-			'name_tag' => 'h3',
-			'job_position' => null,
-			'job_position_tag' => 'h4',
-			'description' => null,
-			'behance' => null,
-			'dribbble' => null,
-			'facebook' => null,
-			'github' => null,
-			'instagram' => null,
-			'linkedin' => null,
-			'medium' => null,
-			'pinterest' => null,
-			'reddit' => null,
-			'snapchat' => null,
-			'tiktok' => null,
-			'twitch' => null,
-			'twitter' => null,
-			'vimeo' => null,
-			'wechat' => null,
-			'whatsapp' => null,
-			'youtube' => null,
-			'open_in_new_window' => null,
-			'add_nofollow' => null,
-			'color' => null,
-			'custom_color' => null,
-			//Static
-			'el_id' => null,
-			'el_class' => null,
-			'css' => null,
-			'css_animation' => ''
+			'picture'             => null,
+			'picture_size'        => null,
+			'name'                => null,
+			'name_tag'            => 'h3',
+			'job_position'        => null,
+			'job_position_tag'    => 'h4',
+			'description'         => null,
+			'behance'             => null,
+			'dribbble'            => null,
+			'facebook'            => null,
+			'github'              => null,
+			'instagram'           => null,
+			'linkedin'            => null,
+			'medium'              => null,
+			'pinterest'           => null,
+			'reddit'              => null,
+			'snapchat'            => null,
+			'tiktok'              => null,
+			'twitch'              => null,
+			'twitter'             => null,
+			'vimeo'               => null,
+			'wechat'              => null,
+			'whatsapp'            => null,
+			'youtube'             => null,
+			'open_in_new_window'  => null,
+			'add_nofollow'        => null,
+			'color'               => null,
+			'custom_color'        => null,
+			// Static
+			'el_id'               => null,
+			'el_class'            => null,
+			'css'                 => null,
+			'css_animation'       => ''
 		), $atts ) );
 		$output = '';
 
 		// Assets.
 		wp_enqueue_style(
 			'borderless-wpbakery-style',
-			BORDERLESS__STYLES . 'wpbakery.min.css', 
-			false, 
+			BORDERLESS__STYLES . 'wpbakery.min.css',
+			false,
 			BORDERLESS__VERSION
 		);
-
 
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
 
-
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
+		$borderless_primary_color   = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; // Primary Color
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; // Secondary Color
+		$borderless_text_color      = isset( $options['text_color'] ) ? $options['text_color'] : ''; // Text Color
+		$borderless_accent_color    = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; // Accent Color
 
 		// Picture
-		$picture_url = isset($picture) ? wp_get_attachment_image_src( $picture, $picture_size) : '';
-		$picture = isset( $picture_url[0] ) ? $picture_url[0] : vc_asset_url( 'vc/no_image.png' );
+		$picture_url = isset( $picture ) ? wp_get_attachment_image_src( $picture, $picture_size ) : '';
+		$picture     = isset( $picture_url[0] ) ? esc_url( $picture_url[0] ) : esc_url( vc_asset_url( 'vc/no_image.png' ) );
 
-		// Target Blank
-		$open_in_new_window = isset($open_in_new_window) ? 'target="_blank"' : '';
-		$add_nofollow = isset($add_nofollow) ? 'rel="nofollow"' : '';
+		// Target and Rel Attributes
+		$open_in_new_window = $open_in_new_window ? 'target="_blank"' : '';
+		$add_nofollow       = $add_nofollow ? 'rel="nofollow"' : '';
 
 		// Color
-		if ($color == 'primary_color') {
-			$color = 'style="color:'.$borderless_primary_color.';"';
-		} else if ($color == 'secondary_color') {
-			$color = 'style="color:'.$borderless_secondary_color.';"';
+		if ( $color == 'primary_color' ) {
+			$color_style = 'color:' . esc_attr( $borderless_primary_color ) . ';';
+		} elseif ( $color == 'secondary_color' ) {
+			$color_style = 'color:' . esc_attr( $borderless_secondary_color ) . ';';
 		} else {
-			$color = isset($custom_color) ? 'style="color:'.$custom_color.';"' : 'style="color:'.$borderless_primary_color.';"';
+			$color_style = $custom_color ? 'color:' . esc_attr( $custom_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';';
 		}
-		 
+		$color_attribute = 'style="' . esc_attr( $color_style ) . '"';
 
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
+		$css      = isset( $atts['css'] ) ? $atts['css'] : '';
+		$el_id    = isset( $atts['el_id'] ) ? $atts['el_id'] : '';
+		$el_id    = ! empty( $el_id ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
 		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
-		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
+		$css_class       = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
+
+		// Allowed tags for name and job position
+		$allowed_tags    = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p' );
+		$name_tag        = in_array( $name_tag, $allowed_tags ) ? $name_tag : 'h3';
+		$job_position_tag = in_array( $job_position_tag, $allowed_tags ) ? $job_position_tag : 'h4';
 
 		// Output
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-team-member '.$css_class.'">';
-		$output .= '<img class="borderless-wpbakery-team-member-picture" src="'.$picture.'" >';
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-team-member ' . esc_attr( $css_class ) . '">';
+		$output .= '<img class="borderless-wpbakery-team-member-picture" src="' . $picture . '" >';
 
 		$output .= '<div class="borderless-wpbakery-team-content">';
-		
-		$output .= isset($name) ? '<'.$name_tag.'>'.$name.'</'.$name_tag.'>' : '';
 
-		$output .= isset($job_position) ? '<'.$job_position_tag.'>'.$job_position.'</'.$job_position_tag.'>' : '';
+		if ( $name ) {
+			$output .= '<' . esc_attr( $name_tag ) . '>' . esc_html( $name ) . '</' . esc_attr( $name_tag ) . '>';
+		}
+
+		if ( $job_position ) {
+			$output .= '<' . esc_attr( $job_position_tag ) . '>' . esc_html( $job_position ) . '</' . esc_attr( $job_position_tag ) . '>';
+		}
 
 		$output .= '<ul class="borderless-wpbakery-team-member-social-profiles">';
-		
-		$output .= isset($behance) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$behance.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Behance"><i class="vi vi-behance"></i></a></li>' : '';
-		
-		$output .= isset($dribbble) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$dribbble.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Dribbble"><i class="vi vi-dribbble"></i></a></li>' : '';
-		
-		$output .= isset($facebook) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$facebook.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Facebook"><i class="vi vi-facebook"></i></a></li>' : '';
-		
-		$output .= isset($github) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$github.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Github"><i class="vi vi-github"></i></a></li>' : '';
-		
-		$output .= isset($instagram) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$instagram.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Instagram"><i class="vi vi-instagram"></i></a></li>' : '';
 
-		$output .= isset($linkedin) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$linkedin.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Linkedin"><i class="vi vi-linkedin"></i></a></li>' : '';
+		$social_links = array(
+			'behance'   => 'vi-behance',
+			'dribbble'  => 'vi-dribbble',
+			'facebook'  => 'vi-facebook',
+			'github'    => 'vi-github',
+			'instagram' => 'vi-instagram',
+			'linkedin'  => 'vi-linkedin',
+			'medium'    => 'vi-medium',
+			'pinterest' => 'vi-pinterest',
+			'reddit'    => 'vi-reddit',
+			'snapchat'  => 'vi-snapchat',
+			'tiktok'    => 'vi-tiktok',
+			'twitch'    => 'vi-twitch',
+			'twitter'   => 'vi-twitter',
+			'vimeo'     => 'vi-vimeo',
+			'wechat'    => 'vi-wechat',
+			'whatsapp'  => 'vi-whatsapp',
+			'youtube'   => 'vi-youtube',
+		);
 
-		$output .= isset($medium) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$medium.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Medium"><i class="vi vi-medium"></i></a></li>' : '';
-
-		$output .= isset($pinterest) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$pinterest.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Pinterest"><i class="vi vi-pinterest"></i></a></li>' : '';
-
-		$output .= isset($reddit) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$reddit.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Reddit"><i class="vi vi-reddit"></i></a></li>' : '';
-
-		$output .= isset($snapchat) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$snapchat.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Snapchat"><i class="vi vi-snapchat"></i></a></li>' : '';
-
-		$output .= isset($tiktok) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$tiktok.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Tiktok"><i class="vi vi-tiktok"></i></a></li>' : '';
-
-		$output .= isset($twitch) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$twitch.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Twitch"><i class="vi vi-twitch"></i></a></li>' : '';
-
-		$output .= isset($twitter) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$twitter.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Twitter"><i class="vi vi-twitter"></i></a></li>' : '';
-
-		$output .= isset($vimeo) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$vimeo.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Vimeo"><i class="vi vi-vimeo"></i></a></li>' : '';
-
-		$output .= isset($wechat) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$wechat.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Wechat"><i class="vi vi-wechat"></i></a></li>' : '';
-
-		$output .= isset($whatsapp) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$whatsapp.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Whatsapp"><i class="vi vi-whatsapp"></i></a></li>' : '';
-
-		$output .= isset($youtube) ? '<li class="borderless-wpbakery-team-member-social-profile"><a href="'.$youtube.'" '.$open_in_new_window.' '.$add_nofollow.' '.$color.' title="Youtube"><i class="vi vi-youtube"></i></a></li>' : '';
+		foreach ( $social_links as $key => $icon_class ) {
+			if ( ! empty( $$key ) ) {
+				$url   = esc_url( $$key );
+				$title = ucfirst( $key );
+				$output .= '<li class="borderless-wpbakery-team-member-social-profile">';
+				$output .= '<a href="' . $url . '" ' . $open_in_new_window . ' ' . $add_nofollow . ' ' . $color_attribute . ' title="' . esc_attr( $title ) . '">';
+				$output .= '<i class="vi ' . esc_attr( $icon_class ) . '"></i></a></li>';
+			}
+		}
 
 		$output .= '</ul>';
 
-		$output .= isset($description) ? '<p>'.$description.'</p>' : '';
+		if ( $description ) {
+			$output .= '<p>' . esc_html( $description ) . '</p>';
+		}
 
 		$output .= '</div>';
 
 		$output .= '</div>';
-		
+
 		return $output;
 	}
 }
+
 
 return array(
 	'name' => __( 'Team Member', 'borderless' ),

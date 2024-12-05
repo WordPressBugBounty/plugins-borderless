@@ -10,103 +10,105 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPBakeryShortCode_borderless_wpbakery_semi_circular_progress_bar extends WPBakeryShortCode {
 	protected function content( $atts, $content = null ) {
 		extract( shortcode_atts( array(
-			'title' => '',
-			'percentage' => '',
-			'bar_thickness' => '16',
-			'track_thickness' => '16',
-			'corner' => 'butt',
-			'colors' => '',
-			'title_color' => '',
-			'ip_color' => '',
-			'bar_color' => '',
-			'track_color' => '',
-			'style' => 'percentage',
-			'icon' => '',
-			//Static
-			'el_id' => '',
-			'el_class' => '',
-			'css' => '',
-			'css_animation' => ''
+			'title'             => '',
+			'percentage'        => '',
+			'bar_thickness'     => '16',
+			'track_thickness'   => '16',
+			'corner'            => 'butt',
+			'colors'            => '',
+			'title_color'       => '',
+			'ip_color'          => '',
+			'bar_color'         => '',
+			'track_color'       => '',
+			'style'             => 'percentage',
+			'icon'              => '',
+			// Static
+			'el_id'             => '',
+			'el_class'          => '',
+			'css'               => '',
+			'css_animation'     => ''
 		), $atts ) );
 		$output = '';
 
 		// Assets.
 		wp_enqueue_style(
 			'borderless-wpbakery-style',
-			BORDERLESS__STYLES . 'wpbakery.min.css', 
-			false, 
+			BORDERLESS__STYLES . 'wpbakery.min.css',
+			false,
 			BORDERLESS__VERSION
 		);
 		wp_enqueue_script(
 			'borderless-wpbakery-appear-script',
-			BORDERLESS__LIB . 'appear.js', array('jquery'), 
-			'1.0.0', 
-			true 
+			BORDERLESS__LIB . 'appear.js',
+			array( 'jquery' ),
+			'1.0.0',
+			true
 		);
 		wp_enqueue_script(
 			'borderless-wpbakery-progressbar-script',
-			BORDERLESS__LIB . 'progressbar.js', array('jquery'), 
-			'1.1.0', 
-			true 
+			BORDERLESS__LIB . 'progressbar.js',
+			array( 'jquery' ),
+			'1.1.0',
+			true
 		);
 		wp_enqueue_script(
 			'borderless-wpbakery-script',
-			BORDERLESS__SCRIPTS . 'borderless-wpbakery.min.js', array('jquery'), 
-			BORDERLESS__VERSION, 
-			true 
+			BORDERLESS__SCRIPTS . 'borderless-wpbakery.min.js',
+			array( 'jquery' ),
+			BORDERLESS__VERSION,
+			true
 		);
-
 
 		// Retrieve data from the database.
 		$options = get_option( 'borderless' );
-		
-		
+
 		// Set default values
-		$borderless_primary_color = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; //Primary Color
-		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; //Secondary Color
-		$borderless_text_color = isset( $options['text_color'] ) ? $options['text_color'] : ''; //Text Color
-		$borderless_accent_color = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; //Accent Color
-	
+		$borderless_primary_color   = isset( $options['primary_color'] ) ? $options['primary_color'] : '#3379fc'; // Primary Color
+		$borderless_secondary_color = isset( $options['secondary_color'] ) ? $options['secondary_color'] : '#3379fc'; // Secondary Color
+		$borderless_text_color      = isset( $options['text_color'] ) ? $options['text_color'] : ''; // Text Color
+		$borderless_accent_color    = isset( $options['accent_color'] ) ? $options['accent_color'] : '#3379fc'; // Accent Color
 
 		// Default Extra Class, CSS and CSS animation
-		$css = isset( $atts['css'] ) ? $atts['css'] : '';
-		$el_id = isset( $atts['el_id'] ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
+		$css      = isset( $atts['css'] ) ? $atts['css'] : '';
+		$el_id    = isset( $atts['el_id'] ) ? $atts['el_id'] : '';
+		$el_id    = ! empty( $el_id ) ? 'id="' . esc_attr( $el_id ) . '"' : '';
 		$el_class = isset( $atts['el_class'] ) ? $atts['el_class'] : '';
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
-		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
+		$css_class       = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
+		// Start Custom Colors
+		$title_color_style = 'color:' . ( $title_color ? esc_attr( $title_color ) : esc_attr( $borderless_primary_color ) ) . ';';
 
-		// Start Custom Colors		
-		$title_color = $title_color ? 'style=color:'.$title_color.'' : 'style=color:'.$borderless_primary_color.'';
-		
-		$percentage_color = $ip_color;
-		$ip_color = $ip_color ? 'style=color:'.$ip_color.'' : 'style=color:'.$borderless_primary_color.'';
-		
-		$bar_color = $bar_color ? $bar_color : $borderless_primary_color;
+		$percentage_color = $ip_color ? esc_attr( $ip_color ) : esc_attr( $borderless_primary_color );
+		$ip_color_style   = 'color:' . ( $ip_color ? esc_attr( $ip_color ) : esc_attr( $borderless_primary_color ) ) . ';';
 
-		$track_color = $track_color ? $track_color : '#f9f9f9';
-		
-		if ($style=="icon") { $icon = '<i '.$ip_color.' class="borderless-wpbakery-semi-circular-progress-bar-icon '.$icon.'""></i>'; } else { $icon = ""; }
+		$bar_color   = $bar_color ? esc_attr( $bar_color ) : esc_attr( $borderless_primary_color );
+		$track_color = $track_color ? esc_attr( $track_color ) : '#f9f9f9';
+
+		if ( $style == 'icon' ) {
+			$icon = '<i style="' . esc_attr( $ip_color_style ) . '" class="borderless-wpbakery-semi-circular-progress-bar-icon ' . esc_attr( $icon ) . '"></i>';
+		} else {
+			$icon = '';
+		}
 		// End Custom Colors
-		
+
 		// Start Output
-		
-		$output .= '<div '.$el_id.' class="borderless-wpbakery-semi-circular-progress-bar '.$css_class.'">';
+		$output .= '<div ' . $el_id . ' class="borderless-wpbakery-semi-circular-progress-bar ' . esc_attr( $css_class ) . '">';
 		$output .= '<div class="borderless-wpbakery-semi-circular-progress-bar-inner">';
-		$output .= '<div class="borderless-wpbakery-semi-circular-progress-bar-params '.$corner.' '.$style.'" percentage="'.$percentage.'" bar_color="'.$bar_color.'" track_color="'.$track_color.'" percentage_color="'.$percentage_color.'" bar_thickness="'.$bar_thickness.'" track_thickness="'.$track_thickness.'"></div>';
+		$output .= '<div class="borderless-wpbakery-semi-circular-progress-bar-params ' . esc_attr( $corner ) . ' ' . esc_attr( $style ) . '" percentage="' . esc_attr( $percentage ) . '" bar_color="' . esc_attr( $bar_color ) . '" track_color="' . esc_attr( $track_color ) . '" percentage_color="' . esc_attr( $percentage_color ) . '" bar_thickness="' . esc_attr( $bar_thickness ) . '" track_thickness="' . esc_attr( $track_thickness ) . '"></div>';
 		$output .= $icon;
-		$output .= '<span '.$title_color.' class="borderless-wpbakery-semi-circular-progress-bar-title">'.$title.'</span>';
+		$output .= '<span style="' . esc_attr( $title_color_style ) . '" class="borderless-wpbakery-semi-circular-progress-bar-title">' . esc_html( $title ) . '</span>';
 		$output .= '</div></div>';
-		
+
 		return $output;
-		
 		// End Output
 	}
 }
+
 
 return array(
 	'name' => __( 'Semi Circular Progress Bar', 'borderless' ),

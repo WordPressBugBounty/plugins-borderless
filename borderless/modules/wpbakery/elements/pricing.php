@@ -125,7 +125,7 @@ class WPBakeryShortCode_borderless_wpbakery_pricing extends WPBakeryShortCode {
 		
 		if ( '' !== $css_animation ) {
 			wp_enqueue_script( 'waypoints' );
-			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . $css_animation;
+			$css_animation_style = ' wpb_animate_when_almost_visible wpb_' . esc_attr( $css_animation );
 		}
 		
 		$class_to_filter = vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
@@ -134,63 +134,71 @@ class WPBakeryShortCode_borderless_wpbakery_pricing extends WPBakeryShortCode {
 		// End Default Extra Class, CSS and CSS animation
 		
 		// Icon
-		if ($icon_display == 'image_icon') {
+		if ( $icon_display == 'image_icon' ) {
 			
-			if($icon_alignment != '') {
-				$icon_alignment = 'text-align:'.$icon_alignment.';';
+			if ( ! empty( $icon_alignment ) ) {
+				$icon_alignment_style = 'text-align:' . esc_attr( $icon_alignment ) . ';';
+			} else {
+				$icon_alignment_style = '';
 			}
 			
 			$default_src = vc_asset_url( 'vc/no_image.png' );
 			$img = wp_get_attachment_image_src( $custom_image_icon );
 			$src = $img[0];
-			$custom_src = $src ? esc_attr( $src ) : $default_src;
+			$custom_src = $src ? esc_url( $src ) : esc_url( $default_src );
 			
-			$icon_content = '<div style="'.$icon_alignment.'"><img src="'.$custom_src.'" ></div>';
+			$icon_content = '<div style="' . esc_attr( $icon_alignment_style ) . '"><img src="' . esc_url( $custom_src ) . '" ></div>';
 			
-		} elseif ($icon_display == 'svg_icon') {
+		} elseif ( $icon_display == 'svg_icon' ) {
 			
-			if($icon_alignment != '') {
-				$icon_alignment = 'text-align:'.$icon_alignment.';';
+			if ( ! empty( $icon_alignment ) ) {
+				$icon_alignment_style = 'text-align:' . esc_attr( $icon_alignment ) . ';';
+			} else {
+				$icon_alignment_style = '';
 			}
 			
 			$default_src = vc_asset_url( 'vc/no_image.png' );
 			$img = wp_get_attachment_image_src( $custom_svg_icon );
 			$src = $img[0];
-			$custom_src = $src ? esc_attr( $src ) : $default_src;
+			$custom_src = $src ? esc_url( $src ) : esc_url( $default_src );
 			
-			$icon_content = '<div class="elvn" style="'.$icon_alignment.'"><img class="borderless-svg-img" src="'.$custom_src.'" ></div>';
+			$icon_content = '<div class="elvn" style="' . esc_attr( $icon_alignment_style ) . '"><img class="borderless-svg-img" src="' . esc_url( $custom_src ) . '" ></div>';
 			
 		} else {
 			
 			$iconClass = isset( $icon ) ? esc_attr( $icon ) : 'fa fa-adjust';
 			
-			$custom_icon_color = $icon_color ? 'color:'.$custom_icon_color.';' : 'color:'.$borderless_primary_color.';'; //Icon Color
+			$custom_icon_color_style = ! empty( $custom_icon_color ) ? 'color:' . esc_attr( $custom_icon_color ) . ';' : 'color:' . esc_attr( $borderless_primary_color ) . ';'; //Icon Color
 			
-			$font_size_reference = $icon_size;
+			$font_size_reference = esc_attr( $icon_size );
 			
-			if($icon_size != '') {
-				$icon_size = 'font-size:'.$icon_size.';';
+			if ( ! empty( $icon_size ) ) {
+				$icon_size_style = 'font-size:' . esc_attr( $icon_size ) . ';';
+			} else {
+				$icon_size_style = '';
 			}
 			
-			if($icon_alignment != '') {
-				$icon_alignment = 'text-align:'.$icon_alignment.';display: block;';
+			if ( ! empty( $icon_alignment ) ) {
+				$icon_alignment_style = 'text-align:' . esc_attr( $icon_alignment ) . ';display: block;';
+			} else {
+				$icon_alignment_style = '';
 			}
 			
-			if($shape != '') {
+			if ( ! empty( $shape ) ) {
 				
-				if($shape == 'rounded' || $shape == 'square' || $shape == 'round') {
-					$color_shape = $color_shape ? 'background-color:'.$color_shape.';' : 'background-color:'.$borderless_primary_color.';'; //Background Color Shape
+				if ( $shape == 'rounded' || $shape == 'square' || $shape == 'round' ) {
+					$color_shape_style = ! empty( $color_shape ) ? 'background-color:' . esc_attr( $color_shape ) . ';' : 'background-color:' . esc_attr( $borderless_primary_color ) . ';'; //Background Color Shape
 				} else {
-					$color_shape = $color_shape ? 'border-color:'.$color_shape.';' : 'border-color:'.$borderless_primary_color.';'; //Border Color Shape
+					$color_shape_style = ! empty( $color_shape ) ? 'border-color:' . esc_attr( $color_shape ) . ';' : 'border-color:' . esc_attr( $borderless_primary_color ) . ';'; //Border Color Shape
 				}
 				
-				if($icon_spacing != '') {
-					$icon_spacing = 'height:'.$icon_spacing.'; width:'.$icon_spacing.';';
+				if ( ! empty( $icon_spacing ) ) {
+					$icon_spacing_style = 'height:' . esc_attr( $icon_spacing ) . '; width:' . esc_attr( $icon_spacing ) . ';';
 				} else {
-					$icon_spacing = 'height:calc('.$font_size_reference.' + 2em); width:calc('.$font_size_reference.' + 2em);';
+					$icon_spacing_style = 'height:calc(' . esc_attr( $font_size_reference ) . ' + 2em); width:calc(' . esc_attr( $font_size_reference ) . ' + 2em);';
 				}
 				
-				$shape_render_start = '<div style="'.$icon_alignment.'"><div class="icon-pricing '.$shape.'" style="'.$color_shape.''.$icon_spacing.'">';
+				$shape_render_start = '<div style="' . esc_attr( $icon_alignment_style ) . '"><div class="icon-pricing ' . esc_attr( $shape ) . '" style="' . esc_attr( $color_shape_style . $icon_spacing_style ) . '">';
 				$shape_render_finish = '</div></div>';
 				
 			} else {
@@ -198,96 +206,128 @@ class WPBakeryShortCode_borderless_wpbakery_pricing extends WPBakeryShortCode {
 				$shape_render_finish = '';
 			}
 			
-			$icon_content = ''.$shape_render_start.'<span style="'.$custom_icon_color.' '.$icon_size.' '.$icon_alignment.'" class="vc_icon_element-icon '.$iconClass.'"></span>'.$shape_render_finish.'';
+			$icon_content = $shape_render_start . '<span style="' . esc_attr( $custom_icon_color_style . ' ' . $icon_size_style . ' ' . $icon_alignment_style ) . '" class="vc_icon_element-icon ' . esc_attr( $iconClass ) . '"></span>' . $shape_render_finish;
 		}
 		
 		
 		
 		// Title
-		$title_content = '<'.$title_tag.' style="font-size:'.$title_size.';line-height:'.$title_line_height.';margin:'.$title_spacing.';text-align:'.$title_alignment.';color:'.$title_color.';">'.$title.'</'.$title_tag.'>';
+		$allowed_tags = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div', 'p' );
+		$title_tag = in_array( $title_tag, $allowed_tags ) ? $title_tag : 'h3';
+		
+		$title_style = 'font-size:' . esc_attr( $title_size ) . ';line-height:' . esc_attr( $title_line_height ) . ';margin:' . esc_attr( $title_spacing ) . ';text-align:' . esc_attr( $title_alignment ) . ';color:' . esc_attr( $title_color ) . ';';
+		
+		$title_content = '<' . esc_attr( $title_tag ) . ' style="' . esc_attr( $title_style ) . '">' . esc_html( $title ) . '</' . esc_attr( $title_tag ) . '>';
 		
 		//Price
-		$price_content = '<p class="price" style="line-height:'.$price_line_height.';margin:'.$price_spacing.';text-align:'.$price_alignment.';color:'.$price_color.';">
-		<span class="pricing-currency" style="font-size:'.$currency_size.';margin:'.$currency_spacing.';">'.$currency.'</span><span class="pricing-value" style="font-size:'.$price_size.';">'.$price.'</span>
-		<span class="pricing-plan">'.$plan.'</span>
+		$price_style = 'line-height:' . esc_attr( $price_line_height ) . ';margin:' . esc_attr( $price_spacing ) . ';text-align:' . esc_attr( $price_alignment ) . ';color:' . esc_attr( $price_color ) . ';';
+		
+		$currency_style = 'font-size:' . esc_attr( $currency_size ) . ';margin:' . esc_attr( $currency_spacing ) . ';';
+		$price_value_style = 'font-size:' . esc_attr( $price_size ) . ';';
+		
+		$price_content = '<p class="price" style="' . esc_attr( $price_style ) . '">
+		<span class="pricing-currency" style="' . esc_attr( $currency_style ) . '">' . esc_html( $currency ) . '</span><span class="pricing-value" style="' . esc_attr( $price_value_style ) . '">' . esc_html( $price ) . '</span>
+		<span class="pricing-plan">' . esc_html( $plan ) . '</span>
 		</p>';
 		
 		//Sub Heading
 		
-		$sub_heading_content = $content;
+		$sub_heading_content = wpb_js_remove_wpautop( do_shortcode( $content ) );
 		
 		//Featured List
-		if($features_icon == 'features-arrow') {
-			$features_icon = 'fa-chevron-right';
-		} else if($features_icon == 'features-check') {
-			$features_icon = 'fa-check';
-		} else if($features_icon == 'features-more') {
-			$features_icon = 'fa-plus';
-		} else {
-			$features_icon = 'fa-star';
+		switch ( $features_icon ) {
+			case 'features-arrow':
+				$features_icon_class = 'fa-chevron-right';
+				break;
+			case 'features-check':
+				$features_icon_class = 'fa-check';
+				break;
+			case 'features-more':
+				$features_icon_class = 'fa-plus';
+				break;
+			default:
+				$features_icon_class = 'fa-star';
+				break;
 		}
 		
 		$featured_list = '';
 		
-		if($features_icon_color != '') {
-			$features_icon_color = 'style="color:'.$features_icon_color.'"';
+		if ( ! empty( $features_icon_color ) ) {
+			$features_icon_color_style = 'style="color:' . esc_attr( $features_icon_color ) . '"';
 		} else {
-			$features_icon_color = '';
+			$features_icon_color_style = '';
 		}
 		
-		if($features_line_list == 'line_list' ) {
-			$features_line_list = 'line-list';
-			if($features_line_list_color != '') {
-				$features_line_list_color = 'border-bottom-color:'.$features_line_list_color.';';
+		if ( $features_line_list == 'line_list' ) {
+			$features_line_list_class = 'line-list';
+			if ( ! empty( $features_line_list_color ) ) {
+				$features_line_list_color_style = 'border-bottom-color:' . esc_attr( $features_line_list_color ) . ';';
 			} else {
-				$features_line_list_color = '';
+				$features_line_list_color_style = '';
 			}
 		} else {
-			$features_line_list = '';
-			$features_line_list_color = '';
+			$features_line_list_class = '';
+			$features_line_list_color_style = '';
 		}
 		
 		$features_counter = 1;
 		
-		while( $features_counter <= 15 ){
-			if(${'feature_' . $features_counter} != ''){
-				$featured_list = $featured_list .'<li class="'.$features_line_list.'" style="color:'.$features_color.';padding:'.$features_spacing.';'.$features_line_list_color.'"><i '.$features_icon_color.' class="fa '.$features_icon.'"></i>'.${'feature_' . $features_counter}.'</li>';
+		while ( $features_counter <= 15 ) {
+			$feature = ${'feature_' . $features_counter};
+			if ( ! empty( $feature ) ) {
+				$feature_text = esc_html( $feature );
+				$feature_style = 'color:' . esc_attr( $features_color ) . ';padding:' . esc_attr( $features_spacing ) . ';' . esc_attr( $features_line_list_color_style );
+				$featured_list .= '<li class="' . esc_attr( $features_line_list_class ) . '" style="' . esc_attr( $feature_style ) . '"><i ' . $features_icon_color_style . ' class="fa ' . esc_attr( $features_icon_class ) . '"></i>' . $feature_text . '</li>';
 			}
 			$features_counter++;
 		}
 		
 		
-		$featured_list_content = '<div><ul class="featured-list">'.$featured_list.'</ul></div>';
+		$featured_list_content = '<div><ul class="featured-list">' . $featured_list . '</ul></div>';
 		
 		
-		if($shadow_pricing_table != '') {
-			$shadow_pricing_table = 'shadow-pricing';
+		if ( ! empty( $shadow_pricing_table ) ) {
+			$shadow_pricing_table_class = 'shadow-pricing';
+		} else {
+			$shadow_pricing_table_class = '';
 		}
 		
 		//Button
 		
 		$link = vc_build_link( $button_link );
+		$button_url = isset( $link['url'] ) ? esc_url( $link['url'] ) : '#';
 		
-		if( $button_shape == 'rounded' || $button_shape == 'square' || $button_shape == 'round' ){
-			$button_background_color = $button_background_color ? 'background-color:'.$button_background_color.';' : 'background-color:'.$borderless_primary_color.';'; //Background Color
+		if ( in_array( $button_shape, array( 'rounded', 'square', 'round' ) ) ) {
+			$button_background_style = ! empty( $button_background_color ) ? 'background-color:' . esc_attr( $button_background_color ) . ';' : 'background-color:' . esc_attr( $borderless_primary_color ) . ';'; //Background Color
 		} else {
-			$button_background_color = $button_background_color ? 'border-width: 2px;border-style: solid;border-color:'.$button_background_color.';' : 'border-width: 2px;border-style: solid;border-color:'.$borderless_primary_color.';'; //Border Color
+			$button_background_style = ! empty( $button_background_color ) ? 'border-width: 2px;border-style: solid;border-color:' . esc_attr( $button_background_color ) . ';' : 'border-width: 2px;border-style: solid;border-color:' . esc_attr( $borderless_primary_color ) . ';'; //Border Color
 		}
 		
-		$pricing_button_content = '<div class="'.$button_alignment.'"><a style="'.$button_background_color.' color:'.$button_text_color.';padding:'.$button_extra_size.';" href="'.esc_attr( $link['url'] ).'" class="'.$button_shape.' pricing-button btn '.$button_size.'" role="button">'.$button_title.'</a></div>';
+		$button_style = $button_background_style . ' color:' . esc_attr( $button_text_color ) . ';padding:' . esc_attr( $button_extra_size ) . ';';
+		
+		$button_class = esc_attr( $button_shape ) . ' pricing-button btn ' . esc_attr( $button_size );
+		
+		$pricing_button_content = '<div class="' . esc_attr( $button_alignment ) . '"><a style="' . esc_attr( $button_style ) . '" href="' . $button_url . '" class="' . esc_attr( $button_class ) . '" role="button">' . esc_html( $button_title ) . '</a></div>';
 		
 		//Layout
 		
 		$layout = 1;
 		
-		$output .= '<div class="borderless-wpbakery-pricing '.$css_class.' '.$shadow_pricing_table.'">';
+		$output .= '<div class="borderless-wpbakery-pricing ' . esc_attr( $css_class ) . ' ' . esc_attr( $shadow_pricing_table_class ) . '">';
 		
-		while( $layout <= 6 ){
-			if(${'area_' . $layout} != '' && ${'area_' . $layout} != 'disable'){
+		while ( $layout <= 6 ) {
+			$area = ${'area_' . $layout};
+			if ( ! empty( $area ) && $area != 'disable' ) {
 				
-				$data_content = ${'area_' . $layout} . '_content';
+				$data_content = ${$area . '_content'};
 				
-				$output .= '<div class="'.${'area_' . $layout}.'" style="margin:'.${'margin_area_' . $layout}.';padding:'.${'padding_area_' . $layout}.';background-color:'.${'background_area_' . $layout}.';">'.${$data_content}.'</div>';
+				$margin = esc_attr( ${'margin_area_' . $layout} );
+				$padding = esc_attr( ${'padding_area_' . $layout} );
+				$background_color = esc_attr( ${'background_area_' . $layout} );
+				
+				$style = 'margin:' . $margin . ';padding:' . $padding . ';background-color:' . $background_color . ';';
+				
+				$output .= '<div class="' . esc_attr( $area ) . '" style="' . esc_attr( $style ) . '">' . $data_content . '</div>';
 				
 			}
 			$layout++;
@@ -298,6 +338,7 @@ class WPBakeryShortCode_borderless_wpbakery_pricing extends WPBakeryShortCode {
 		return $output;
 	}
 }
+
 
 return array(
 	'name' => __( 'Pricing', 'borderless' ),

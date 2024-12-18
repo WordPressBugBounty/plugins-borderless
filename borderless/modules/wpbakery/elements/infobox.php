@@ -42,6 +42,11 @@ class WPBakeryShortCode_borderless_wpbakery_infobox extends WPBakeryShortCode {
 			'css' => '',
 			'css_animation' => ''
 		), $atts ) );
+		
+		// SECURITY: Ensure that only allowed tags are used in $title_tag
+		$accepted_tags = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' );
+		$title_tag = in_array( $title_tag, $accepted_tags, true ) ? $title_tag : 'h2';
+
 		$output = '';
 
 		// Assets.
@@ -150,7 +155,6 @@ class WPBakeryShortCode_borderless_wpbakery_infobox extends WPBakeryShortCode {
 		return $output;
 	}
 }
-
 
 
 return array(

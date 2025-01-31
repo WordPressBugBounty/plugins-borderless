@@ -2,9 +2,9 @@
 Contributors: Visualmodo
 Tags: Gutenberg, Elementor, elements, widgets, templates
 Requires at least: 5.0
-Tested up to: 6.6.1
+Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 1.5.9
+Stable tag: 1.6.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -81,10 +81,17 @@ Sites must be built on PHP 5.6 or greater, but Borderless always supports the la
 
 == Changelog ==
 
-= 1.5.9 -Dec 18 2024 =
+= 1.6.1 - Jan 29 2025 =
+* Fixed - RCE Vulnerability (CVE-2024-11600).
+* Security - Additional sanitization on font pack names and `charmap.php` generation.
+
+= 1.6.0 - Jan 28 2025 =
 * Fixed - General Vulnerabilities.
 
-= 1.5.8 -Dec 06 2024 =
+= 1.5.9 - Dec 18 2024 =
+* Fixed - General Vulnerabilities.
+
+= 1.5.8 - Dec 06 2024 =
 * Fixed - General Vulnerabilities.
 
 = 1.5.7 - Sep 17 2024 =

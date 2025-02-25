@@ -4,7 +4,7 @@ Tags: Gutenberg, Elementor, elements, widgets, templates
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 1.6.1
+Stable tag: 1.6.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -80,6 +80,17 @@ Sites must be built on PHP 5.6 or greater, but Borderless always supports the la
 4. Create a new Post Type in seconds with our exclusive Custom Post type Creator.
 
 == Changelog ==
+
+= 1.6.4 - Feb 21 2025 =
+* Fixed - WPBakery SVG Removed.
+* Fixed - SVG upload Removed.
+
+= 1.6.3 - Feb 18 2025 =
+* Fixed - SVG Vulnerability.
+* Fixed - Icon Manager Readded.
+
+= 1.6.2 - Feb 17 2025 =
+* Fixed - Icon Manager Removed.
 
 = 1.6.1 - Jan 29 2025 =
 * Fixed - RCE Vulnerability (CVE-2024-11600).

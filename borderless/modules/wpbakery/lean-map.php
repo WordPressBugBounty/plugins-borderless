@@ -29,8 +29,6 @@ vc_lean_map( 'borderless_wpbakery_progress_bar', null, $borderless_element_path 
 
 vc_lean_map( 'borderless_wpbakery_semi_circular_progress_bar', null, $borderless_element_path . 'semi-circular-progress-bar.php' ); 
 
-vc_lean_map( 'borderless_wpbakery_svg', null, $borderless_element_path . 'svg.php' ); 
-
 vc_lean_map( 'borderless_wpbakery_team_member', null, $borderless_element_path . 'team-member.php' ); 
 
 /*-----------------------------------------------------------------------------------*/

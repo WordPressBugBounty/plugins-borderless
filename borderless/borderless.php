@@ -4,7 +4,7 @@
 Plugin Name: Borderless
 Plugin URI: https://visualmodo.com/borderless/
 Description: One service packed with powerful tools to help you reach your purposes.
-Version: 1.6.1
+Version: 1.6.4
 Author: Visualmodo
 Author URI: https://visualmodo.com
 License: GPLv3 or later
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 /*  *.  Borderless Constants
 /*-----------------------------------------------------------------------------------*/
 
-define( 'BORDERLESS__VERSION', '1.6.1' );
+define( 'BORDERLESS__VERSION', '1.6.4' );
 define( 'BORDERLESS__DIR', plugin_dir_path( __FILE__ ) );
 define( 'BORDERLESS__URL', plugins_url( '/', __FILE__ ) );
 define( 'BORDERLESS__INC', BORDERLESS__DIR . '/includes' );
@@ -136,7 +136,6 @@ class Borderless {
 		require_once( BORDERLESS__INC . "/templates/system-info.php" );
 		require_once( BORDERLESS__INC . "/icon-manager/icon-manager.php" );
 		require_once( BORDERLESS__INC . "/custom-post-types/custom-post-types.php" );
-		require_once( BORDERLESS__INC . "/svg/svg.php" );
 		require_once( BORDERLESS__BLOCK_EDITOR . "/contact-information/contact-information.php" );
 		require_once( BORDERLESS__BLOCK_EDITOR . "/social-icons/social-icons.php" );
 		require_once( BORDERLESS__BLOCK_EDITOR . "/spacer/spacer.php" );

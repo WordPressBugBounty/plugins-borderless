@@ -32,18 +32,6 @@
       margin: 0; }
 
 /*-----------------------------------------------------------------------------------*/
-/*  *.  Elementor - Component - Marquee Text
-/*-----------------------------------------------------------------------------------*/
-.borderless-elementor-marquee-text-widget {
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden; }
-  .borderless-elementor-marquee-text-widget .js-marquee {
-    display: grid;
-    grid-auto-flow: column;
-    gap: 20px; }
-
-/*-----------------------------------------------------------------------------------*/
 /*  *.  Elementor - Component - Progress Bar
 /*-----------------------------------------------------------------------------------*/
 .borderless-elementor-progress-bar-widget {

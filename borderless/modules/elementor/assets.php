@@ -62,6 +62,13 @@ if ( ! class_exists( 'Borderless_Elementor_Assets' ) ) {
 			);
 
 			wp_register_style( 
+				'elementor-widget-pricing-table',
+				BORDERLESS__STYLES . 'elementor/elementor-widget-pricing-table.css', 
+				false, 
+				BORDERLESS__VERSION
+			);
+
+			wp_register_style( 
 				'elementor-widget-slider',
 				BORDERLESS__STYLES . 'elementor/elementor-widget-slider.css', 
 				false, 

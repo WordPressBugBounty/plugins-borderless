@@ -38,23 +38,13 @@ class Borderless_Dashboard {
         );
 
         add_menu_page(
-            esc_html__( 'AI Tools', 'borderless' ),
-            esc_html__( 'AI Tools', 'borderless' ),
-            'manage_options',
-            'borderless-ai-tools', // Menu slug
-            array( $this, 'redirect_to_ai_tools' ), // Function to call
-            'dashicons-lightbulb', // Dashicon icon
-            3.1 // Position
-        );
-
-        add_menu_page(
             esc_html__( 'Post Types', 'borderless' ),
             esc_html__( 'Post Types', 'borderless' ),
             'manage_options',
             'edit.php?post_type=borderless_cpt',
             '',
             BORDERLESS__URL . '/assets/img/post-type.svg',
-            3.2
+            3.1
         );
 
         add_menu_page(
@@ -64,7 +54,7 @@ class Borderless_Dashboard {
             'admin.php?page=borderless-library',
             '',
             BORDERLESS__URL . '/assets/img/library.svg',
-            3.3
+            3.2
         );
         
         add_action('admin_enqueue_scripts', 'borderless_dashboard_style');
@@ -110,15 +100,6 @@ class Borderless_Dashboard {
             99                      
         );
         
-    }
-
-    /**
-     * Redirect to the AI tools external link.
-     */
-    public function redirect_to_ai_tools() {
-        // Redirect to the external link
-        echo '<script>window.location.href="https://visualmodo.com/artificial-intelligence";</script>';
-        exit;
     }
     
     public function init_settings() {

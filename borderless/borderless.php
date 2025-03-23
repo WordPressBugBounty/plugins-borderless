@@ -4,7 +4,7 @@
 Plugin Name: Borderless
 Plugin URI: https://visualmodo.com/borderless/
 Description: One service packed with powerful tools to help you reach your purposes.
-Version: 1.6.7
+Version: 1.6.8
 Author: Visualmodo
 Author URI: https://visualmodo.com
 License: GPLv3 or later
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 /*  *.  Borderless Constants
 /*-----------------------------------------------------------------------------------*/
 
-define( 'BORDERLESS__VERSION', '1.6.7' );
+define( 'BORDERLESS__VERSION', '1.6.8' );
 define( 'BORDERLESS__DIR', plugin_dir_path( __FILE__ ) );
 define( 'BORDERLESS__URL', plugins_url( '/', __FILE__ ) );
 define( 'BORDERLESS__INC', BORDERLESS__DIR . '/includes' );
@@ -168,9 +168,6 @@ class Borderless {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		// Enqueue script for Gutenberg
-		add_action('enqueue_block_editor_assets', array($this, 'enqueue_gutenberg_button_script'));
-
 
 		function borderless_settings_colors() {
 		$options = get_option( 'borderless' );
@@ -190,21 +187,6 @@ class Borderless {
 		}
 		add_action( 'wp_head', 'borderless_settings_colors' );
 		
-	}
-
-	/**
-	* Enqueue the script for the Gutenberg editor.
-	*
-	* @since    1.0.0
-	*/
-	public function enqueue_gutenberg_button_script() {
-		wp_enqueue_script(
-			'borderless-ai-button',
-			BORDERLESS__SCRIPTS . 'ai-button.js',
-			array( 'wp-element', 'wp-components', 'wp-edit-post', 'wp-plugins' ), // Added 'wp-plugins' dependency
-			filemtime( BORDERLESS__DIR . 'assets/scripts/ai-button.js' ),
-			true
-		);
 	}
 	
 	/**

@@ -58,7 +58,7 @@ class Marquee_Text extends Widget_Base {
 			$repeater = new Repeater();
 
 			$repeater->add_control(
-				'content_type',
+				'borderless_elementor_marquee_text_content_type',
 				[
 					'label'   => esc_html__( 'Content Type', 'borderless' ),
 					'type'    => Controls_Manager::SELECT,
@@ -72,19 +72,19 @@ class Marquee_Text extends Widget_Base {
 			);
 
 			$repeater->add_control(
-				'editor_content',
+				'borderless_elementor_marquee_text_editor_content',
 				[
 					'label'     => esc_html__( 'Editor Content', 'borderless' ),
 					'type'      => Controls_Manager::WYSIWYG,
 					'default'   => '',
 					'condition' => [
-						'content_type' => 'editor',
+						'borderless_elementor_marquee_text_content_type' => 'editor',
 					],
 				]
 			);
 
 			$repeater->add_control(
-				'image_content',
+				'borderless_elementor_marquee_text_image_content',
 				[
 					'label'     => esc_html__( 'Image', 'borderless' ),
 					'type'      => Controls_Manager::MEDIA,
@@ -92,13 +92,13 @@ class Marquee_Text extends Widget_Base {
 						'url' => Utils::get_placeholder_image_src(),
 					],
 					'condition' => [
-						'content_type' => 'image',
+						'borderless_elementor_marquee_text_content_type' => 'image',
 					],
 				]
 			);
 
 			$repeater->add_control(
-				'image_resolution',
+				'borderless_elementor_marquee_text_image_resolution',
 				[
 					'label'     => esc_html__( 'Image Resolution', 'borderless' ),
 					'type'      => Controls_Manager::SELECT,
@@ -110,13 +110,13 @@ class Marquee_Text extends Widget_Base {
 						'large'     => esc_html__( 'Large', 'borderless' ),
 					],
 					'condition' => [
-						'content_type' => 'image',
+						'borderless_elementor_marquee_text_content_type' => 'image',
 					],
 				]
 			);
 
 			$repeater->add_control(
-				'image_link',
+				'borderless_elementor_marquee_text_image_link',
 				[
 					'label'       => esc_html__( 'Link', 'borderless' ),
 					'type'        => Controls_Manager::URL,
@@ -125,13 +125,13 @@ class Marquee_Text extends Widget_Base {
 						'url' => '',
 					],
 					'condition'   => [
-						'content_type' => 'image',
+						'borderless_elementor_marquee_text_content_type' => 'image',
 					],
 				]
 			);
 
 			$repeater->add_control(
-				'icon_content',
+				'borderless_elementor_marquee_text_icon_content',
 				[
 					'label'     => esc_html__( 'Icon', 'borderless' ),
 					'type'      => Controls_Manager::ICONS,
@@ -140,13 +140,13 @@ class Marquee_Text extends Widget_Base {
 						'library' => 'fa-solid',
 					],
 					'condition' => [
-						'content_type' => 'icon',
+						'borderless_elementor_marquee_text_content_type' => 'icon',
 					],
 				]
 			);
 			
 			$repeater->add_control(
-				'icon_link',
+				'borderless_elementor_marquee_text_icon_link',
 				[
 					'label'       => esc_html__( 'Link', 'borderless' ),
 					'type'        => Controls_Manager::URL,
@@ -155,7 +155,7 @@ class Marquee_Text extends Widget_Base {
 						'url' => '',
 					],
 					'condition'   => [
-						'content_type' => 'icon',
+						'borderless_elementor_marquee_text_content_type' => 'icon',
 					],
 				]
 			);
@@ -166,47 +166,47 @@ class Marquee_Text extends Widget_Base {
 					'type'        => Controls_Manager::REPEATER,
 					'show_label'  => true,
 					'fields'      => $repeater->get_controls(),
-					'title_field' => '{{ content_type }}',
+					'title_field' => '{{ borderless_elementor_marquee_text_content_type }}',
 					'default'     => [
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #1', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #1', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #2', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #2', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #3', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #3', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #4', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #4', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #5', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #5', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #6', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #6', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #7', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #7', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #8', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #8', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #9', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #9', 'borderless' ),
 						],
 						[
-							'content_type'   => 'editor',
-							'editor_content' => esc_html__( 'Item #10', 'borderless' ),
+							'borderless_elementor_marquee_text_content_type'   => 'editor',
+							'borderless_elementor_marquee_text_editor_content' => esc_html__( 'Item #10', 'borderless' ),
 						],
 					],
 				]
@@ -237,6 +237,16 @@ class Marquee_Text extends Widget_Base {
 			);
 
 			$this->add_responsive_control(
+				'borderless_elementor_marquee_text_pause_on_hover',
+				[
+					'label'        => __( 'Pause On Hover', 'borderless' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'return_value' => 'true',
+					'default'      => 'false',
+				]
+			);
+
+			$this->add_responsive_control(
 				'borderless_elementor_marquee_text_duplicated',
 				[
 					'label'        => __( 'Duplicated', 'borderless' ),
@@ -247,12 +257,32 @@ class Marquee_Text extends Widget_Base {
 			);
 
 			$this->add_responsive_control(
-				'borderless_elementor_marquee_text_pause_on_hover',
+				'borderless_elementor_marquee_text_number_of_duplicates',
 				[
-					'label'        => __( 'Pause On Hover', 'borderless' ),
-					'type'         => Controls_Manager::SWITCHER,
-					'return_value' => 'true',
-					'default'      => 'false',
+					'label'   => __( 'Number Of Duplicates', 'borderless' ),
+					'type'    => Controls_Manager::NUMBER,
+					'min'     => 1,
+					'max'     => 10,
+					'step'    => 1,
+					'default' => 2,
+					'condition' => [
+						'borderless_elementor_marquee_text_duplicated' => 'true',
+					],
+				]
+			);
+
+			$this->add_responsive_control(
+				'borderless_elementor_marquee_text_gap_between_duplicates',
+				[
+					'label'     => __( 'Gap Between Duplicates', 'borderless' ),
+					'type'      => Controls_Manager::NUMBER,
+					'min'       => 0,
+					'max'       => 99999,
+					'step'      => 1,
+					'default'   => 24,
+					'condition' => [
+						'borderless_elementor_marquee_text_duplicated' => 'true',
+					],
 				]
 			);
 
@@ -274,25 +304,10 @@ class Marquee_Text extends Widget_Base {
 				[
 					'label'   => __( 'Duration', 'borderless' ),
 					'type'    => Controls_Manager::NUMBER,
-					'min'     => 1000,
+					'min'     => 100,
 					'max'     => 100000,
 					'step'    => 100,
 					'default' => 5000,
-				]
-			);
-
-			$this->add_responsive_control(
-				'borderless_elementor_marquee_text_gap',
-				[
-					'label'     => __( 'Gap', 'borderless' ),
-					'type'      => Controls_Manager::NUMBER,
-					'min'       => 0,
-					'max'       => 99999,
-					'step'      => 1,
-					'default'   => 50,
-					'selectors' => [
-						'{{WRAPPER}} .js-marquee' => 'gap: {{VALUE}}px',
-					],
 				]
 			);
 
@@ -309,19 +324,19 @@ class Marquee_Text extends Widget_Base {
 			);
 			
 			$this->add_control(
-				'divider_enable',
+				'borderless_elementor_marquee_text_divider_enable',
 				[
 					'label'        => __( 'Enable Divider', 'borderless' ),
 					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => __( 'Yes', 'borderless' ),
 					'label_off'    => __( 'No', 'borderless' ),
 					'return_value' => 'true',
-					'default'      => 'true',
+					'default'      => 'false',
 				]
 			);
 
 			$this->add_control(
-				'divider_icon',
+				'borderless_elementor_marquee_text_divider_icon',
 				[
 					'label'     => __( 'Divider Icon', 'borderless' ),
 					'type'      => Controls_Manager::ICONS,
@@ -330,7 +345,7 @@ class Marquee_Text extends Widget_Base {
 						'library' => 'fa-solid',
 					],
 					'condition' => [
-						'divider_enable' => 'true',
+						'borderless_elementor_marquee_text_divider_enable' => 'true',
 					],
 				]
 			);
@@ -350,7 +365,7 @@ class Marquee_Text extends Widget_Base {
 		);
 
 			$this->add_responsive_control(
-				'angle',
+				'borderless_elementor_marquee_text_angle',
 				[
 					'label'      => esc_html__( 'Angle', 'borderless' ),
 					'type'       => Controls_Manager::SLIDER,
@@ -371,6 +386,21 @@ class Marquee_Text extends Widget_Base {
 				]
 			);
 
+			$this->add_responsive_control(
+				'borderless_elementor_marquee_text_gap_between_items',
+				[
+					'label'     => __( 'Gap Between Items', 'borderless' ),
+					'type'      => Controls_Manager::NUMBER,
+					'min'       => 0,
+					'max'       => 99999,
+					'step'      => 1,
+					'default'   => 24,
+					'selectors' => [
+						'{{WRAPPER}} .borderless-elementor-marquee-text .js-marquee' => 'gap: {{VALUE}}px',
+					],
+				]
+			);
+
 		$this->end_controls_section();
 
 		/*-----------------------------------------------------------------------------------*/
@@ -386,7 +416,7 @@ class Marquee_Text extends Widget_Base {
 		);
 
 			$this->add_responsive_control(
-				'divider_icon_width',
+				'borderless_elementor_marquee_text_divider_icon_width',
 				[
 					'label'      => esc_html__( 'Width', 'borderless' ),
 					'type'       => Controls_Manager::SLIDER,
@@ -414,7 +444,7 @@ class Marquee_Text extends Widget_Base {
 						'unit' => 'px',
 					],
 					'condition'  => [
-						'divider_icon[value]!' => '',
+						'borderless_elementor_marquee_text_divider_icon[value]!' => '',
 					],
 				]
 			);
@@ -531,7 +561,7 @@ class Marquee_Text extends Widget_Base {
 			);
 			
 			$this->add_control(
-				'icons_divider',
+				'borderless_elementor_marquee_text_icons_divider',
 				[
 					'label'     => esc_html__( 'Icons', 'borderless' ),
 					'type'      => Controls_Manager::HEADING,
@@ -540,19 +570,31 @@ class Marquee_Text extends Widget_Base {
 			);
 
 			$this->add_responsive_control(
-				'icon_width',
+				'borderless_elementor_marquee_text_icon_width',
 				[
 					'label'      => esc_html__( 'Width', 'borderless' ),
 					'type'       => Controls_Manager::SLIDER,
-					'size_units' => [ 'px' ],
+					'size_units' => [ 'px', 'em', '%', 'rem' ],
 					'range'      => [
-						'px' => [
+						'px'  => [
+							'min' => 16,
+							'max' => 320,
+						],
+						'em'  => [
+							'min' => 1,
+							'max' => 20,
+						],
+						'%'   => [
 							'min' => 10,
-							'max' => 200,
+							'max' => 100,
+						],
+						'rem' => [
+							'min' => 1,
+							'max' => 20,
 						],
 					],
 					'default'    => [
-						'size' => 24,
+						'size' => 16,
 						'unit' => 'px',
 					],
 					'selectors'  => [
@@ -571,19 +613,20 @@ class Marquee_Text extends Widget_Base {
 		$this->add_render_attribute( 'marquee-text', 'data-direction', $settings['borderless_elementor_marquee_text_direction'] );
 		$this->add_render_attribute( 'marquee-text', 'data-duration', $settings['borderless_elementor_marquee_text_duration'] );
 		$this->add_render_attribute( 'marquee-text', 'data-delayBeforeStart', $settings['borderless_elementor_marquee_text_delay_before_start'] );
-		$this->add_render_attribute( 'marquee-text', 'data-gap', $settings['borderless_elementor_marquee_text_gap'] );
+		$this->add_render_attribute( 'marquee-text', 'data-gap', $settings['borderless_elementor_marquee_text_gap_between_duplicates'] );
 		$this->add_render_attribute( 'marquee-text', 'data-startVisible', $settings['borderless_elementor_marquee_text_start_visible'] );
 		$this->add_render_attribute( 'marquee-text', 'data-duplicated', $settings['borderless_elementor_marquee_text_duplicated'] );
+		$this->add_render_attribute( 'marquee-text', 'data-duplicateCount', $settings['borderless_elementor_marquee_text_number_of_duplicates'] );
 		$this->add_render_attribute( 'marquee-text', 'data-pauseOnHover', $settings['borderless_elementor_marquee_text_pause_on_hover'] );
 		
 		$divider = '';
-		if ( ! empty( $settings['divider_enable'] ) && 'true' === $settings['divider_enable'] && ! empty( $settings['divider_icon']['value'] ) ) {
+		if ( ! empty( $settings['borderless_elementor_marquee_text_divider_enable'] ) && 'true' === $settings['borderless_elementor_marquee_text_divider_enable'] && ! empty( $settings['borderless_elementor_marquee_text_divider_icon']['value'] ) ) {
 			$divider_style = '';
-			if ( ! empty( $settings['divider_icon_width']['size'] ) ) {
-				$divider_style .= 'width:' . $settings['divider_icon_width']['size'] . $settings['divider_icon_width']['unit'] . ';';
+			if ( ! empty( $settings['borderless_elementor_marquee_text_divider_icon_width']['size'] ) ) {
+				$divider_style .= 'width:' . $settings['borderless_elementor_marquee_text_divider_icon_width']['size'] . $settings['borderless_elementor_marquee_text_divider_icon_width']['unit'] . ';';
 			}		
 			ob_start();
-			\Elementor\Icons_Manager::render_icon( $settings['divider_icon'], [ 'aria-hidden' => 'true', 'style' => $divider_style ] );
+			\Elementor\Icons_Manager::render_icon( $settings['borderless_elementor_marquee_text_divider_icon'], [ 'aria-hidden' => 'true', 'style' => $divider_style ] );
 			$divider = ob_get_clean();
 		}
 
@@ -591,34 +634,34 @@ class Marquee_Text extends Widget_Base {
 
 			<div class="borderless-elementor-marquee-text-widget">
 				<div class="borderless-elementor-marquee-text">
-					<div class="js-marquee" <?php echo $this->get_render_attribute_string( 'marquee-text' ); ?>>
+					<div class="marquee" <?php echo $this->get_render_attribute_string( 'marquee-text' ); ?>>
 						<?php
 							$items = $settings['borderless_elementor_marquee_item_strings'];
 							$count = count( $items );
 							foreach ( $items as $index => $item ) {
 								$output = '';
-								switch( $item['content_type'] ) {
+								switch( $item['borderless_elementor_marquee_text_content_type'] ) {
 									case 'editor':
-										$output = wp_kses_post( $item['editor_content'] );
+										$output = wp_kses_post( $item['borderless_elementor_marquee_text_editor_content'] );
 										break;
 									case 'image':
-										if ( ! empty( $item['image_content']['id'] ) ) {
-											$image = wp_get_attachment_image( $item['image_content']['id'], $item['image_resolution'] );
+										if ( ! empty( $item['borderless_elementor_marquee_text_image_content']['id'] ) ) {
+											$image = wp_get_attachment_image( $item['borderless_elementor_marquee_text_image_content']['id'], $item['borderless_elementor_marquee_text_image_resolution'] );
 										} else {
-											$image = '<img src="' . esc_url( $item['image_content']['url'] ) . '" alt="">';
+											$image = '<img src="' . esc_url( $item['borderless_elementor_marquee_text_image_content']['url'] ) . '" alt="">';
 										}
-										if ( ! empty( $item['image_link']['url'] ) ) {
-											$output = '<a href="' . esc_url( $item['image_link']['url'] ) . '" target="' . ( ! empty( $item['image_link']['is_external'] ) ? '_blank' : '_self' ) . '" rel="' . ( ! empty( $item['image_link']['nofollow'] ) ? 'nofollow' : '' ) . '">' . $image . '</a>';
+										if ( ! empty( $item['borderless_elementor_marquee_text_image_link']['url'] ) ) {
+											$output = '<a href="' . esc_url( $item['borderless_elementor_marquee_text_image_link']['url'] ) . '" target="' . ( ! empty( $item['borderless_elementor_marquee_text_image_link']['is_external'] ) ? '_blank' : '_self' ) . '" rel="' . ( ! empty( $item['borderless_elementor_marquee_text_image_link']['nofollow'] ) ? 'nofollow' : '' ) . '">' . $image . '</a>';
 										} else {
 											$output = $image;
 										}
 										break;
 									case 'icon':
-										if ( ! empty( $item['icon_content']['value'] ) ) {
+										if ( ! empty( $item['borderless_elementor_marquee_text_icon_content']['value'] ) ) {
 											$style = '';
 											// Use global style settings for icon color, width and height
-											if ( ! empty( $settings['icon_width']['size'] ) ) {
-												$style .= 'width:' . $settings['icon_width']['size'] . $settings['icon_width']['unit'] . ';';
+											if ( ! empty( $settings['borderless_elementor_marquee_text_icon_width']['size'] ) ) {
+												$style .= 'width:' . $settings['borderless_elementor_marquee_text_icon_width']['size'] . $settings['borderless_elementor_marquee_text_icon_width']['unit'] . ';';
 											}
 											if ( ! empty( $settings['icon_height']['size'] ) ) {
 												$style .= 'height:' . $settings['icon_height']['size'] . $settings['icon_height']['unit'] . ';';
@@ -628,12 +671,12 @@ class Marquee_Text extends Widget_Base {
 												$icon_attributes['style'] = $style;
 											}
 											ob_start();
-											\Elementor\Icons_Manager::render_icon( $item['icon_content'], $icon_attributes );
+											\Elementor\Icons_Manager::render_icon( $item['borderless_elementor_marquee_text_icon_content'], $icon_attributes );
 											$output = ob_get_clean();
 											
 											// Wrap with link if icon_link is set
-											if ( ! empty( $item['icon_link']['url'] ) ) {
-												$output = '<a href="' . esc_url( $item['icon_link']['url'] ) . '" target="' . ( ! empty( $item['icon_link']['is_external'] ) ? '_blank' : '_self' ) . '" rel="' . ( ! empty( $item['icon_link']['nofollow'] ) ? 'nofollow' : '' ) . '">' . $output . '</a>';
+											if ( ! empty( $item['borderless_elementor_marquee_text_icon_link']['url'] ) ) {
+												$output = '<a href="' . esc_url( $item['borderless_elementor_marquee_text_icon_link']['url'] ) . '" target="' . ( ! empty( $item['borderless_elementor_marquee_text_icon_link']['is_external'] ) ? '_blank' : '_self' ) . '" rel="' . ( ! empty( $item['borderless_elementor_marquee_text_icon_link']['nofollow'] ) ? 'nofollow' : '' ) . '">' . $output . '</a>';
 											}
 										}
 										break;

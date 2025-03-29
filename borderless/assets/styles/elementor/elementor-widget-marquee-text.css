@@ -4,6 +4,7 @@
 .borderless-elementor-marquee-text-widget {
   width: 100%;
   white-space: nowrap;
+  overflow: hidden;
 }
 .borderless-elementor-marquee-text-widget .js-marquee {
   display: grid;

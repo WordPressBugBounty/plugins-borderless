@@ -1,0 +1,157 @@
+@-webkit-keyframes pulse_animation {
+	0%, to {
+		-webkit-box-shadow: 0 0 0 0 var(--pulse-color);
+		box-shadow: 0 0 0 0 var(--pulse-color);
+		-webkit-transform: scale(0.95);
+		transform: scale(0.95);
+	}
+	70% {
+		-webkit-box-shadow: 0 0 0 20px var(--pulse-color);
+		box-shadow: 0 0 0 20px var(--pulse-color);
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+@keyframes pulse_animation {
+	0%, to {
+		-webkit-box-shadow: 0 0 0 0 var(--pulse-color);
+		box-shadow: 0 0 0 0 var(--pulse-color);
+		-webkit-transform: scale(0.95);
+		transform: scale(0.95);
+	}
+	70% {
+		-webkit-box-shadow: 0 0 0 20px var(--pulse-color);
+		box-shadow: 0 0 0 20px var(--pulse-color);
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+/* Base styles for Info Box */
+.borderless-info-box-wrapper {
+	--borderless-info-box-media-offset-x: 0;
+	--borderless-info-box-media-offset-y: 0;
+	--borderless-info-box-media-rotate: 0;
+}
+
+/* Layout for media directions */
+.borderless-info-box-wrapper {
+	width: 100%;
+}
+.borderless-info-box-wrapper.media-left,
+.borderless-info-box-wrapper.media-right {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+}
+.borderless-info-box-media {
+	display: flex;
+}
+.borderless-info-box-wrapper.media-left .borderless-info-box-media {
+	margin-right: 15px;
+}
+.borderless-info-box-wrapper.media-right .borderless-info-box-media {
+	margin-left: 15px;
+}
+.borderless-info-box-wrapper.media-top {
+	display: block;
+	margin-bottom: 15px;
+}
+
+/* Ensure content container takes available space in left/right modes */
+.borderless-info-box-wrapper.media-left .borderless-info-box-content,
+.borderless-info-box-wrapper.media-right .borderless-info-box-content {
+	flex: 1;
+}
+
+/* Title styling */
+.borderless-info-box-title {
+	margin-top: 0;
+	margin-bottom: 10px;
+	color: #151515;
+	font-size: 24px;
+}
+
+/* Media figure styling */
+.borderless-info-box-figure {
+	display: inline-block;
+	margin: 0 0 25px !important;
+	-webkit-transform: translate(var(--borderless-info-box-media-offset-x), var(--borderless-info-box-media-offset-y));
+	transform: translate(var(--borderless-info-box-media-offset-x), var(--borderless-info-box-media-offset-y));
+}
+
+/* Icon container styling */
+.borderless-info-box-figure--icon {
+	text-align: center;
+	line-height: 1;
+	-webkit-transform: translate(var(--borderless-info-box-media-offset-x), var(--borderless-info-box-media-offset-y)) rotate(var(--borderless-info-box-media-rotate));
+	transform: translate(var(--borderless-info-box-media-offset-x), var(--borderless-info-box-media-offset-y)) rotate(var(--borderless-info-box-media-rotate));
+}
+
+.borderless-info-box-figure i,
+.borderless-info-box-figure svg {
+	position: relative;
+	display: block;
+	width: 1em;
+	height: auto;
+	-webkit-transform: rotate(calc(-1 * var(--borderless-info-box-media-rotate)));
+	transform: rotate(calc(-1 * var(--borderless-info-box-media-rotate)));
+	fill: currentColor;
+}
+
+.borderless-info-box-figure i:before {
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.borderless-info-box-figure img {
+	width: 100%;
+	height: 100%;
+	vertical-align: bottom;
+	object-fit: cover;
+}
+
+/* Description styling */
+.borderless-info-box-text p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+/* Button styles (adapted for Info Box) */
+.borderless-info-box-footer {
+	text-align: left;
+	margin-top: 15px;
+}
+
+.borderless-info-box-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #000000;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 4px;
+	transition: background-color 0.3s ease;
+}
+
+.borderless-info-box-button:hover {
+	background-color: #03a84e;
+}
+
+.full-width-button {
+	width: 100%;
+}
+
+.button-icon {
+	fill: currentColor;
+}
+
+/* Ensure any SVG inside the button text has the same size as the text */
+.button-text > svg {
+	width: 1em;
+	height: auto;
+	vertical-align: middle;
+}

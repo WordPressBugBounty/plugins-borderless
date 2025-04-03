@@ -48,6 +48,13 @@ if ( ! class_exists( 'Borderless_Elementor_Assets' ) ) {
 			);
 
 			wp_register_style( 
+				'elementor-widget-info-box',
+				BORDERLESS__STYLES . 'elementor/elementor-widget-info-box.css', 
+				false, 
+				BORDERLESS__VERSION
+			);
+
+			wp_register_style( 
 				'elementor-widget-marquee-text',
 				BORDERLESS__STYLES . 'elementor/elementor-widget-marquee-text.css', 
 				false, 

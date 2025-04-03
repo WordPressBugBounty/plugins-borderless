@@ -143,6 +143,7 @@ final class Borderless_Elementor {
 		require_once('widgets/circular-progress-bar.php');
 		require_once('widgets/contact-form-7.php');
 		require_once('widgets/hero.php');
+		require_once('widgets/info-box.php');
 		require_once('widgets/marquee-text.php');
 		require_once('widgets/portfolio.php');
 		require_once('widgets/pricing-table.php');
@@ -158,6 +159,7 @@ final class Borderless_Elementor {
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Circular_Progress_Bar() );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Contact_Form_7() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Hero() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Info_Box() );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Marquee_text() );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Portfolio() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Borderless\Widgets\Pricing_Table() );

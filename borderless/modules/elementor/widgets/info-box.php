@@ -12,6 +12,7 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Group_Control_Background;
 use Elementor\Repeater;
 use Elementor\Utils;
 use Elementor\Icons_Manager;
@@ -23,6 +24,10 @@ class Info_Box extends Widget_Base {
 	 */
 	public function get_name() {
 		return 'borderless-elementor-info-box';
+	}
+
+	public function get_custom_help_url() {
+		return 'https://borderless.visualmodo.com/widget/info-box/';
 	}
 
 	/**
@@ -367,6 +372,15 @@ class Info_Box extends Widget_Base {
 					'selectors' => [
 						'{{WRAPPER}} .borderless-info-box-media' => '{{VALUE}}',
 					],
+				]
+			);
+			$this->add_group_control(
+				Group_Control_Background::get_type(),
+				[
+					'name'     => 'borderless_elementor_info_box_background',
+					'label'    => esc_html__( 'Background', 'borderless' ),
+					'types'    => [ 'classic', 'gradient' ],
+					'selector' => '{{WRAPPER}} .borderless-info-box-wrapper',
 				]
 			);
 			$this->add_group_control(
@@ -769,8 +783,8 @@ class Info_Box extends Widget_Base {
 							'type'      => Controls_Manager::COLOR,
 							'default'   => '#ffffff',
 							'selectors' => [
-								'{{WRAPPER}} .borderless-info-box-button' => 'color: {{VALUE}};',
-								'{{WRAPPER}} .button-icon'              => 'fill: {{VALUE}};',
+								'{{WRAPPER}} .borderless-info-box-button' => 'color: {{VALUE}} !important;',
+								'{{WRAPPER}} .button-icon'              => 'fill: {{VALUE}} !important;',
 							],
 						]
 					);
@@ -800,8 +814,8 @@ class Info_Box extends Widget_Base {
 							'type'      => Controls_Manager::COLOR,
 							'default'   => '#ffffff',
 							'selectors' => [
-								'{{WRAPPER}} .borderless-info-box-button:hover'          => 'color: {{VALUE}};',
-								'{{WRAPPER}} .borderless-info-box-button:hover .button-icon' => 'fill: {{VALUE}};',
+								'{{WRAPPER}} .borderless-info-box-button:hover'          => 'color: {{VALUE}} !important;',
+								'{{WRAPPER}} .borderless-info-box-button:hover .button-icon' => 'fill: {{VALUE}} !important;',
 							],
 						]
 					);

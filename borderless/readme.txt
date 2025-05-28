@@ -4,7 +4,7 @@ Tags: elementor, elements, elementor addon, elementor widget, templates
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -80,6 +80,11 @@ Sites must be built on PHP 5.6 or greater, but Borderless always supports the la
 4. Create a new Post Type in seconds with our exclusive Custom Post type Creator.
 
 == Changelog ==
+
+= 1.7.2 - May 28 2025 =
+* Fixed - Progress Bar Vulnerability.
+* Fixed - Circular Progress Bar Vulnerability.
+* Fixed - Semicircular Progress Bar Vulnerability.
 
 = 1.7.1 - Apr 05 2025 =
 * Improvements - Elementor Widget - Info Box.

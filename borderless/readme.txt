@@ -2,9 +2,9 @@
 Contributors: Visualmodo
 Tags: elementor, elements, elementor addon, elementor widget, templates
 Requires at least: 5.0
-Tested up to: 6.8.2
+Tested up to: 6.8.3
 Requires PHP: 8.0
-Stable tag: 1.7.3
+Stable tag: 1.7.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -80,6 +80,12 @@ Sites must be built on PHP 5.6 or greater, but Borderless always supports the la
 4. Create a new Post Type in seconds with our exclusive Custom Post type Creator.
 
 == Changelog ==
+
+= 1.7.5 - Nov 27 2025 =
+* Improvements - License Manager For Pro Version.
+
+= 1.7.4 - Nov 27 2025 =
+* New - License Manager For Pro Version.
 
 = 1.7.3 - Sep 14 2025 =
 * Fixed - Trademark Adjustments.

@@ -2,8 +2,15 @@
 
 namespace LIBRARY;
 
-$license_options = get_option( 'borderless_license_option_name' );
-$borderless_license = isset( $license_options['borderless_license_key'] ) ? $license_options['borderless_license_key'] : '';
+// Usa o novo sistema de licença.
+global $borderless_license;
+
+$license_active = false;
+
+if ( isset( $borderless_license ) && $borderless_license instanceof \BORDERLESS_LICENSE ) {
+	// Usa o status armazenado na opção, sem chamada remota.
+	$license_active = $borderless_license->get_api_key_status();
+}
 
 $predefined_themes = $this->import_files;
 
@@ -61,7 +68,7 @@ if ( ! empty( $this->import_files ) && isset( $_GET['import-mode'] ) && 'manual'
 						</a>
 
 						<div id="borderlessLibraryFilterPageBuilder" class="borderless-library__collapse-nav nav-collapse collapse " data-bs-parent="#borderlessLibraryFilter" hs-parent-area="#borderlessLibraryFilter" data-filter-group="page-builders">
-						<a class="borderless-library__collapse-nav-link nav-link active" href="#filter" data-filter="*"><?php esc_html_e( 'All Page Builders', 'borderless' ); ?></a>
+							<a class="borderless-library__collapse-nav-link nav-link active" href="#filter" data-filter="*"><?php esc_html_e( 'All Page Builders', 'borderless' ); ?></a>
 							<a class="borderless-library__collapse-nav-link nav-link" href="#filter" data-filter=".elementor"><?php esc_html_e( 'Elementor', 'borderless' ); ?></a>
 							<a class="borderless-library__collapse-nav-link nav-link" href="#filter" data-filter=".wpbakery"><?php esc_html_e( 'WPBakery', 'borderless' ); ?></a>
 						</div>
@@ -77,8 +84,8 @@ if ( ! empty( $this->import_files ) && isset( $_GET['import-mode'] ) && 'manual'
 						</a>
 
 						<div id="borderlessLibraryFilterCategories" class="borderless-library__collapse-nav nav-collapse collapse show" data-bs-parent="#borderlessLibraryFilter" hs-parent-area="#borderlessLibraryFilter" data-filter-group="categories">
-						<a class="borderless-library__collapse-nav-link nav-link active" href="#filter" data-filter="*"><?php esc_html_e( 'All Categories', 'borderless' ); ?></a>
-						<?php foreach ( $categories as $category => $title ) { ?>
+							<a class="borderless-library__collapse-nav-link nav-link active" href="#filter" data-filter="*"><?php esc_html_e( 'All Categories', 'borderless' ); ?></a>
+							<?php foreach ( $categories as $category => $title ) { ?>
 								<a class="borderless-library__collapse-nav-link nav-link" href="#filter" data-filter=".<?php echo esc_html( $category ); ?>"><?php echo esc_html( $title ); ?></a>
 							<?php } ?>
 						</div>
@@ -93,16 +100,22 @@ if ( ! empty( $this->import_files ) && isset( $_GET['import-mode'] ) && 'manual'
 						<?php
 							$img_src = isset( $import_file['import_preview_image_url'] ) ? $import_file['import_preview_image_url'] : '';
 							if ( empty( $img_src ) ) {
-								$theme = wp_get_theme();
+								$theme   = wp_get_theme();
 								$img_src = $theme->get_screenshot();
 							}
+
+							// Evita avisos de índice indefinido.
+							$template_license     = isset( $import_file['license'] ) ? $import_file['license'] : '';
+							$page_builder_class   = isset( $import_file['page_builder'] ) ? $import_file['page_builder'] : '';
+							$is_pro_template      = ( $template_license === 'pro-template' );
+							$item_categories      = Helpers::get_demo_import_item_categories( $import_file );
 						?>
 						
-						<div class="borderless-library__template col-md-4 <?php echo esc_attr( Helpers::get_demo_import_item_categories( $import_file ) ) .' '. esc_attr( $import_file['license'] ) .' '. esc_attr( $import_file['page_builder'] ); ?>">
+						<div class="borderless-library__template col-md-4 <?php echo esc_attr( $item_categories ) . ' ' . esc_attr( $template_license ) . ' ' . esc_attr( $page_builder_class ); ?>">
 							<div class="borderless-library__template-inner">
 								<div class="borderless-library__template-image-container">
 									<?php if ( ! empty( $img_src ) ) { ?>
-										<img class="borderless-library__template-item-image" src="<?php echo esc_url( $img_src ) ?>">
+										<img class="borderless-library__template-item-image" src="<?php echo esc_url( $img_src ); ?>">
 									<?php } else { ?>
 										<div class="borderless-library__template-item-image  borderless-library__template-image--no-image"><?php esc_html_e( 'No preview image.', 'borderless' ); ?></div>
 									<?php } ?>
@@ -113,11 +126,11 @@ if ( ! empty( $this->import_files ) && isset( $_GET['import-mode'] ) && 'manual'
 										<?php if ( ! empty( $import_file['preview_url'] ) ) { ?>
 											<a class="borderless-library__template-body-button" href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank"><?php esc_html_e( 'Preview', 'borderless' ); ?></a>
 										<?php } ?>
-											<?php if ( $import_file['license'] == 'pro-template' && !( strlen($borderless_license) == 40 && preg_match('/\d/', $borderless_license) && preg_match('/[a-zA-Z]/', $borderless_license) ) ) { ?>
-												<a class="borderless-library__template-body-button borderless-library__template-body-button--no-license" href="https://visualmodo.com/borderless/" target="_blank"><?php esc_html_e( 'Buy Pro Version', 'borderless' ); ?></a>
-											<?php } else { ?>
-												<a class="borderless-library__template-body-button" href="<?php echo $this->get_plugin_settings_url( [ 'step' => 'import', 'import' => esc_attr( $index ) ] ); ?>"><?php esc_html_e( 'Import', 'borderless' ); ?></a>
-											<?php } ?>
+										<?php if ( $is_pro_template && ! $license_active ) { ?>
+											<a class="borderless-library__template-body-button borderless-library__template-body-button--no-license" href="https://visualmodo.com/borderless/" target="_blank"><?php esc_html_e( 'Buy Pro Version', 'borderless' ); ?></a>
+										<?php } else { ?>
+											<a class="borderless-library__template-body-button" href="<?php echo $this->get_plugin_settings_url( [ 'step' => 'import', 'import' => esc_attr( $index ) ] ); ?>"><?php esc_html_e( 'Import', 'borderless' ); ?></a>
+										<?php } ?>
 									</span>
 								</div>
 							</div>

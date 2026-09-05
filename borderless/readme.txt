@@ -1,13 +1,14 @@
 === Borderless – Addons and Templates for Elementor ===
 Contributors: Visualmodo
 Tags: elementor, elements, elementor addon, elementor widget, templates
-Requires at least: 5.0
-Tested up to: 6.8.3
-Requires PHP: 8.0
-Stable tag: 1.7.5
+Requires at least: 6.0
+Tested up to: 7.1.0
+Requires PHP: 8.3
+Stable tag: 1.8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
+Extend Elementor and WPBakery with customizable widgets, elements, templates, custom post types, related posts, and more.
 
 == Description ==
 
@@ -70,7 +71,7 @@ Absolutely not! Borderless lets you reach a high end design with no need to writ
 
 = What version of PHP do I need? =
 
-Sites must be built on PHP 5.6 or greater, but Borderless always supports the latest version of PHP.
+Sites must be built on PHP 8.3 or greater, but Borderless always supports the latest version of PHP.
 
 == Screenshots ==
 
@@ -80,6 +81,9 @@ Sites must be built on PHP 5.6 or greater, but Borderless always supports the la
 4. Create a new Post Type in seconds with our exclusive Custom Post type Creator.
 
 == Changelog ==
+
+= 1.8.0 - Sep 05 2026 =
+* Dev - Tested up to WordPress 7.1.0.
 
 = 1.7.5 - Nov 27 2025 =
 * Improvements - License Manager For Pro Version.
